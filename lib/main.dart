@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:returndex/ui/login.dart';
 import 'package:returndex/ui/signup.dart';
+import 'package:returndex/ui/welcome.dart';
 import 'package:returndex/walkthrough.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,26 +23,75 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+Future<bool> saveTokenPreferences(String token) async{
+  SharedPreferences prefs=await SharedPreferences.getInstance();
+  prefs.setString("token", token);
+  return prefs.commit();
+
+}
+
+
+Future<String> getTokenPreferences() async {
+  SharedPreferences prefs=await SharedPreferences.getInstance();
+  String token = prefs.getString("token");
+  return token;
+}
+
+
 class MySplashScreen extends StatefulWidget {
   @override
   _MySplashScreenState createState() => _MySplashScreenState();
 }
 
 class _MySplashScreenState extends State<MySplashScreen> {
+
+  String _token = "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(
+    getTokenPreferences().then(updateToken);
+    
+        Timer(
       Duration(
         seconds: 2 // set duration of splash screen in seconds
       ),
+
+()=>navigateRoute()
      // ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage() ))
-      ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => MyLoginPage() )) /// need to place login page here 
+
+      //()=> Navigator.push(context, MaterialPageRoute(builder: (context) => MyLoginPage() )) /// need to place login page here 
     );
+
+    
+
+    
   }
 
 
+
+void navigateRoute(){
+  if (_token == "" || _token == null) {
+    //not login
+   // print(_token);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignupPage()));
+  }
+  else{
+    //login
+    print(_token + " login ");
+     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWelcomePage()));
+  }
+}
+
+
+
+void updateToken(String token)
+{
+  setState(() {
+   this._token =token; 
+  });
+}
 
 
 

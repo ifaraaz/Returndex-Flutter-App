@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:returndex/main.dart';
 import 'package:returndex/walkthrough.dart';
 
 class VerifyOTP extends StatelessWidget {
@@ -116,26 +117,44 @@ SizedBox(height: 20.0,),
                       elevation: 7.0,
                       child: InkWell(
                         onTap: () {
-                           Navigator.push(context, MaterialPageRoute(builder: (context) => MyWalkthroughScreen() ));
-                        },
-                        child: Center(
-                          child: Text('VERIFY',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+                          verifyOTPandNavigate();
+                                 },
+                                                  child: Center(
+                                                    child: Text('VERIFY',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.bold,
+                                                        )),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                          
+                            void verifyOTPandNavigate() {
+//check for otp verification throught API
+String isOTPvalid = "";
+
+if (isOTPvalid == "") {
+  //OTP valid 
+  //check whether it is registartion or login
+  //save values to shared preferences 
+  saveTokenPreferences("testing token");
+}
+else{
+  //show alert for invalid re-enter the value
+}
+
+// Navigator.push(context, MaterialPageRoute(builder: (context) => MyWalkthroughScreen() ));
+                                             
+                            }
 }
 
 class ImageHolder extends StatelessWidget {
