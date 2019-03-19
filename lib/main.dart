@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:returndex/reuseable/functions.dart';
 import 'package:returndex/ui/login.dart';
-import 'package:returndex/ui/signup.dart';
 import 'package:returndex/ui/welcome.dart';
-import 'package:returndex/walkthrough.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -24,19 +23,10 @@ class MyApp extends StatelessWidget {
 }
 
 
-Future<bool> saveTokenPreferences(String token) async{
-  SharedPreferences prefs=await SharedPreferences.getInstance();
-  prefs.setString("token", token);
-  return prefs.commit();
-
-}
 
 
-Future<String> getTokenPreferences() async {
-  SharedPreferences prefs=await SharedPreferences.getInstance();
-  String token = prefs.getString("token");
-  return token;
-}
+
+
 
 
 class MySplashScreen extends StatefulWidget {
@@ -75,7 +65,7 @@ void navigateRoute(){
   if (_token == "" || _token == null) {
     //not login
    // print(_token);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignupPage()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyLoginPage()));
   }
   else{
     //login

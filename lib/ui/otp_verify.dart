@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:returndex/main.dart';
-import 'package:returndex/walkthrough.dart';
+import 'package:returndex/reuseable/functions.dart';
 
 class VerifyOTP extends StatelessWidget {
   @override
