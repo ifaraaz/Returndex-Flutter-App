@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:returndex/model/Auth.dart';
 import 'package:returndex/reuseable/auth_utils.dart';
 import 'package:returndex/reuseable/networkUtil.dart';
+import 'package:returndex/reuseable/networkUtility.dart';
 import 'package:returndex/ui/home.dart';
 import 'package:returndex/ui/otp_verify.dart';
 import 'package:returndex/ui/restapidata.dart';
@@ -252,7 +256,15 @@ TextEditingController passwordController =TextEditingController();
                                                                     
                                                                       void otpButtonClicked() {
                                                                         if (mobileKey.currentState.validate()) {
-                                                                          getloginpassword();
+                                                                         // getloginpassword();
+
+	_otpButtonClicked("2");
+
+
+
+
+
+
                                                                          //  Navigator.push(
                                                                           //                context,
                                                                           //                MaterialPageRoute(
@@ -274,6 +286,24 @@ _showLoading() {
 	}
 
 
+
+_otpButtonClicked(String logintype) async {
+  _showLoading();
+  var responseJson =await authenticateUser(logintype,mobileNumController.text,passwordController.text);
+  print(responseJson);
+
+  	if(responseJson == null) {
+
+				NetworkUtils.showSnackBar(_scaffoldKey, 'Something went wrong!');
+
+			} 
+      else{
+        print(responseJson.mobileNumber);
+      }
+
+      _hideLoading();
+
+}
 
 _authenticateUser(String logintype) async {
 		_showLoading();

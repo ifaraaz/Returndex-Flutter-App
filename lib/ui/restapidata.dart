@@ -89,38 +89,38 @@ return citys;
   }
 
 
-Future<User> getQuote() async {
-    String url = 'http://rdapi.cashaa.news/user/GetCountryList';
+
+
+
+  Future<http.Response> requestMethod() async {
+    var url = "http://rdapi.cashaa.news/api/Auth";
+    var body = json.encode({
+          "loginType": "2",
+          "Mobile": "9919960019",
+          "CountryId": "d70504d3-c323-e911-80e5-008cfa5ac2c5",
+          "Password": "Amjad@123%"
+      });
+
+    Map<String,String> headers = {
+      'Content-type' : 'application/json', 
+      'Accept': 'application/json',
+    };
+
     final response =
-        await http.get(url, headers: {"Accept": "application/json"});
+        await http.post(url, body: body, headers: headers);
+    final responseJson = json.decode(response.body);
+    print(responseJson);
+    return response;
+}
 
 
-    if (response.statusCode == 200) {
-      print("Success");
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load post');
-    }
-  }
-
-  Future<User> getloginpassword() async {
-    String url = 'http://rdapi.cashaa.news/api/Auth';
-    final response =
-        await http.post(url, headers: {"Accept": "application/json"},body: {
-          'loginType': "2",
-          'Mobile': "9919960019",
-         'CountryId': "d70504d3-c323-e911-80e5-008cfa5ac2c5",
-         'Password': "Amjad@123%"
-        });
 
 
-    if (response.statusCode == 200) {
-      print("Success");
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load');
-    }
-  }
+
+
+
+
+ 
 
 
 
