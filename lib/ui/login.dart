@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:returndex/reuseable/auth_utils.dart';
+import 'package:returndex/reuseable/networkUtil.dart';
 import 'package:returndex/ui/home.dart';
 import 'package:returndex/ui/otp_verify.dart';
+import 'package:returndex/ui/restapidata.dart';
 import 'package:returndex/ui/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLoginPage extends StatefulWidget {
   @override
@@ -9,8 +13,15 @@ class MyLoginPage extends StatefulWidget {
 }
 
 class _MyLoginPageState extends State<MyLoginPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var _formKey =GlobalKey<FormState>();
   var mobileKey = GlobalKey<FormFieldState>();
+
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+	SharedPreferences _sharedPreferences;
+	bool _isError = false;
+	bool _obscureText = true;
+	bool _isLoading = false;
 
 var displayresult = "";
 
@@ -183,16 +194,16 @@ TextEditingController passwordController =TextEditingController();
 
                                                                     otpButtonClicked();
                                                                                                                                         
-                                                                                                                                      },
-                                                                                                                                      child: Center(
-                                                                                                                                        child: Text('LOGIN WITH OTP',
-                                                                                                                                            style: TextStyle(
-                                                                                                                                              fontWeight: FontWeight.bold,
-                                                                                                                                            )),
-                                                                                                                                      ),
-                                                                                                                                    ),
-                                                                                                                                  ),
-                                                                                                                                ),
+                                                                             },
+                                                                          child: Center(
+                                                            child: Text('LOGIN WITH OTP',
+                                                                      style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                              )),
+                                                            ),
+                                                    ),
+                                                         ),
+                                                                                                               ),
                                                                                                       
                                                                                                                                 SizedBox(
                                                                                                                                   height: 45.0,
@@ -230,8 +241,9 @@ TextEditingController passwordController =TextEditingController();
                                                                                                         void loginButtonClicked() {
                                                                                                           setState(() {
                                                                                                             if (_formKey.currentState.validate()) {
-                                                                                                              this.displayresult = _calculateTotalReturns();
-                                                                                                              print(mobileNumController.text);
+                                                                                                             // this.displayresult = _calculateTotalReturns();
+                                                                                                            
+                                                                                                              _authenticateUser("2");
                                                                                                               // Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage() ));
                                                                                                             }
                                                                                                           });
@@ -240,19 +252,100 @@ TextEditingController passwordController =TextEditingController();
                                                                     
                                                                       void otpButtonClicked() {
                                                                         if (mobileKey.currentState.validate()) {
-                                                                           Navigator.push(
-                                                                                                                                            context,
-                                                                                                                                            MaterialPageRoute(
-                                                                                                                                                builder: (context) => VerifyOTP()));
+                                                                          getloginpassword();
+                                                                         //  Navigator.push(
+                                                                          //                context,
+                                                                          //                MaterialPageRoute(
+                                                                          //                builder: (context) => VerifyOTP()));
                                                                         }
                                                                        
 
                                                                       }
-}
-String _calculateTotalReturns() {
-   
+_showLoading() {
+		setState(() {
+		  _isLoading = true;
+		});
+	}
 
-    String result =
-        'After ';
-    return result;
-  }
+	_hideLoading() {
+		setState(() {
+		  _isLoading = false;
+		});
+	}
+
+
+
+_authenticateUser(String logintype) async {
+		_showLoading();
+		{
+			var responseJson = await NetworkUtils.authenticateUser(
+				mobileNumController.text,logintype , passwordController.text
+			);
+      
+
+			print(responseJson);
+
+			if(responseJson == null) {
+
+				NetworkUtils.showSnackBar(_scaffoldKey, 'Something went wrong!');
+
+			} else if(responseJson == 'NetworkError') {
+
+				NetworkUtils.showSnackBar(_scaffoldKey, null);
+
+			} else if(responseJson['errors'] != null) {
+
+				NetworkUtils.showSnackBar(_scaffoldKey, 'Invalid Email/Password');
+
+			} else {
+        print("Successfull");
+
+				AuthUtils.insertDetails(_sharedPreferences, responseJson);
+				/**
+				 * Removes stack and start with the new page.
+				 * In this case on press back on HomePage app will exit.
+				 * **/
+			//	Navigator.of(_scaffoldKey.currentContext)
+				//	.pushReplacementNamed(HomePage.routeName);
+
+			}
+			_hideLoading();
+		} 
+		
+	}
+
+
+
+
+
+
+Widget _loadingScreen() {
+		return new Container(
+			margin: const EdgeInsets.only(top: 100.0),
+			child: new Center(
+				child: new Column(
+					children: <Widget>[
+						new CircularProgressIndicator(
+							strokeWidth: 4.0
+						),
+						new Container(
+							padding: const EdgeInsets.all(8.0),
+							child: new Text(
+								'Please Wait',
+								style: new TextStyle(
+									color: Colors.grey.shade500,
+									fontSize: 16.0
+								),
+							),
+						)
+					],
+				)
+			)
+		);
+	}
+
+	
+
+
+
+}

@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:returndex/model/Auth.dart';
+import 'package:returndex/model/taglist.dart';
 
 
 class RestApiData extends StatelessWidget {
@@ -84,4 +86,66 @@ citys.add(city);
 print(citys.length);
 
 return citys;
+  }
+
+
+Future<User> getQuote() async {
+    String url = 'http://rdapi.cashaa.news/user/GetCountryList';
+    final response =
+        await http.get(url, headers: {"Accept": "application/json"});
+
+
+    if (response.statusCode == 200) {
+      print("Success");
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<User> getloginpassword() async {
+    String url = 'http://rdapi.cashaa.news/api/Auth';
+    final response =
+        await http.post(url, headers: {"Accept": "application/json"},body: {
+          'loginType': "2",
+          'Mobile': "9919960019",
+         'CountryId': "d70504d3-c323-e911-80e5-008cfa5ac2c5",
+         'Password': "Amjad@123%"
+        });
+
+
+    if (response.statusCode == 200) {
+      print("Success");
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+
+
+
+
+
+  
+  Future<dynamic> getApiDataLogin() async {
+    String url = 'http://rdapi.cashaa.news/api/Auth';
+    final response =
+        await http.post(url,
+        body: {
+          'loginType': "2",
+          'Mobile': "9919960019",
+         'CountryId': "d70504d3-c323-e911-80e5-008cfa5ac2c5",
+         'Password': "Amjad@123%"
+        }
+        );
+
+print(response.body);
+var jsonData = json.decode(response.body);
+print ("faraaz");
+print(jsonData);
+
+print(jsonData);
+
+return jsonData;
   }
