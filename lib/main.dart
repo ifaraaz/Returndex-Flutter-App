@@ -1,7 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:returndex/reuseable/functions.dart';
+import 'package:returndex/reuseable/networkUtility.dart';
 import 'package:returndex/ui/login.dart';
 import 'package:returndex/ui/welcome.dart';
 

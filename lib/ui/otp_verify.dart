@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:returndex/reuseable/functions.dart';
 
 class VerifyOTP extends StatelessWidget {
   @override
@@ -145,7 +144,7 @@ if (isOTPvalid == "") {
   //OTP valid 
   //check whether it is registartion or login
   //save values to shared preferences 
-  saveTokenPreferences("testing token");
+ // saveTokenPreferences("testing token");
 }
 else{
   //show alert for invalid re-enter the value

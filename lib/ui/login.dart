@@ -1,14 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:returndex/model/Auth.dart';
-import 'package:returndex/reuseable/auth_utils.dart';
-import 'package:returndex/reuseable/networkUtil.dart';
 import 'package:returndex/reuseable/networkUtility.dart';
-import 'package:returndex/ui/home.dart';
-import 'package:returndex/ui/otp_verify.dart';
-import 'package:returndex/ui/restapidata.dart';
 import 'package:returndex/ui/signup.dart';
+import 'package:returndex/walkthrough.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLoginPage extends StatefulWidget {
@@ -21,12 +16,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
   var _formKey =GlobalKey<FormState>();
   var mobileKey = GlobalKey<FormFieldState>();
 
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-	SharedPreferences _sharedPreferences;
-	bool _isError = false;
-	bool _obscureText = true;
-	bool _isLoading = false;
-
 var displayresult = "";
 
 TextEditingController mobileNumController = TextEditingController();
@@ -36,6 +25,7 @@ TextEditingController passwordController =TextEditingController();
   Widget build(BuildContext context) {
     return SafeArea(
       child: new Scaffold(
+        key: _scaffoldKey,
           resizeToAvoidBottomPadding: false,
           //backgroundColor: Colors.grey,
           body: Form(
@@ -43,16 +33,7 @@ TextEditingController passwordController =TextEditingController();
             child: ListView(
               // fit: StackFit.expand,
               children: <Widget>[
-                //   Container(
-                //   decoration: BoxDecoration(
-                //   image: DecorationImage(
-                //     image: AssetImage("images/back6.jpg"),
-                //     fit: BoxFit.cover,
-                //   )
-
-                // ),
-                //     ),
-
+               
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -162,7 +143,7 @@ TextEditingController passwordController =TextEditingController();
                               elevation: 7.0,
                               child: InkWell(
                                 onTap: () {
-                                  loginButtonClicked();
+                                 loginValidateClicked();
                                                                  
                                                                   },
                                                                   child: Center(
@@ -242,140 +223,76 @@ TextEditingController passwordController =TextEditingController();
                                                                                                           );
                                                                                                         }
                                                                                                       
-                                                                                                        void loginButtonClicked() {
-                                                                                                          setState(() {
-                                                                                                            if (_formKey.currentState.validate()) {
-                                                                                                             // this.displayresult = _calculateTotalReturns();
-                                                                                                            
-                                                                                                              _authenticateUser("2");
-                                                                                                              // Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage() ));
-                                                                                                            }
-                                                                                                          });
+                                  void loginValidateClicked() {
+                                  setState(() {
+                                   if (_formKey.currentState.validate()) {
+                                              _loginButtonClicked("2");
+                                          }
+                                            });
                                                                                                               
-                                                                                                        }
+                                         }
                                                                     
                                                                       void otpButtonClicked() {
                                                                         if (mobileKey.currentState.validate()) {
                                                                          // getloginpassword();
 
-	_otpButtonClicked("2");
-
-
-
-
-
-
-                                                                         //  Navigator.push(
-                                                                          //                context,
-                                                                          //                MaterialPageRoute(
-                                                                          //                builder: (context) => VerifyOTP()));
-                                                                        }
+	_otpButtonClicked("1");
+             }
                                                                        
 
-                                                                      }
-_showLoading() {
-		setState(() {
-		  _isLoading = true;
-		});
-	}
+   }
 
-	_hideLoading() {
-		setState(() {
-		  _isLoading = false;
-		});
-	}
 
 
 
 _otpButtonClicked(String logintype) async {
-  _showLoading();
+
   var responseJson =await authenticateUser(logintype,mobileNumController.text,passwordController.text);
   print(responseJson);
 
   	if(responseJson == null) {
 
-				NetworkUtils.showSnackBar(_scaffoldKey, 'Something went wrong!');
+				showSnackBar(_scaffoldKey, 'Something went wrong!');
 
 			} 
       else{
         print(responseJson.mobileNumber);
       }
 
-      _hideLoading();
+      
 
 }
 
-_authenticateUser(String logintype) async {
-		_showLoading();
-		{
-			var responseJson = await NetworkUtils.authenticateUser(
-				mobileNumController.text,logintype , passwordController.text
-			);
+_loginButtonClicked(String logintype) async {
+			showSnackBar(_scaffoldKey, 'Please wait ...');
+
+		var responseJson =await authenticateUser(logintype,mobileNumController.text,passwordController.text);
+    print(responseJson);
       
-
-			print(responseJson);
-
 			if(responseJson == null) {
 
-				NetworkUtils.showSnackBar(_scaffoldKey, 'Something went wrong!');
+				showSnackBar(_scaffoldKey, 'Something went wrong! Please try valid crrdentials');
 
-			} else if(responseJson == 'NetworkError') {
+			} 
+      //  else if(responseJson['errors'] != null) {
 
-				NetworkUtils.showSnackBar(_scaffoldKey, null);
+			// 	NetworkUtils.showSnackBar(_scaffoldKey, 'Invalid Email/Password');
 
-			} else if(responseJson['errors'] != null) {
-
-				NetworkUtils.showSnackBar(_scaffoldKey, 'Invalid Email/Password');
-
-			} else {
+			// }
+       else {
         print("Successfull");
+        	showSnackBar(_scaffoldKey, 'Login Successful');
 
-				AuthUtils.insertDetails(_sharedPreferences, responseJson);
 				/**
 				 * Removes stack and start with the new page.
 				 * In this case on press back on HomePage app will exit.
 				 * **/
-			//	Navigator.of(_scaffoldKey.currentContext)
-				//	.pushReplacementNamed(HomePage.routeName);
+			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
+
 
 			}
-			_hideLoading();
+	
 		} 
 		
 	}
 
-
-
-
-
-
-Widget _loadingScreen() {
-		return new Container(
-			margin: const EdgeInsets.only(top: 100.0),
-			child: new Center(
-				child: new Column(
-					children: <Widget>[
-						new CircularProgressIndicator(
-							strokeWidth: 4.0
-						),
-						new Container(
-							padding: const EdgeInsets.all(8.0),
-							child: new Text(
-								'Please Wait',
-								style: new TextStyle(
-									color: Colors.grey.shade500,
-									fontSize: 16.0
-								),
-							),
-						)
-					],
-				)
-			)
-		);
-	}
-
-	
-
-
-
-}

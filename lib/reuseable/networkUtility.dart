@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:returndex/model/Auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
  
  
  	final String host = developmentHost;
 	final String productionHost = 'https://api.returndex.com';
 	final String developmentHost = 'http://rdapi.cashaa.news/';
+
 
  Future<UserDetails> authenticateUser(String logintype,String mobileNumber,String password) async {
     var endpoint = "api/Auth";
@@ -26,14 +29,58 @@ try {
   final response =
         await http.post(url, body: body, headers: headers);
     final responseJson = json.decode(response.body);
-   UserDetails user = UserDetails(responseJson['AccessToken'], responseJson['Mobileno']);
+    final status =response.statusCode;
+    if (status == 201) {
+      
+       UserDetails user = UserDetails(responseJson['AccessToken'], responseJson['Mobileno']);
+   if (user.accessToken.isNotEmpty) {
+     saveTokenPreferences(user.accessToken);
+   
   
-    print(user.accessToken);
     return user;
+    }
+    else {
+      return null;
+
+    }
+   
+     
+
+    }
+   
   
 } catch (exception) {
-  	print(exception);
+  //	print(exception);
+    logoutUser();
 		return null;
 }
     
 }
+
+Future<bool> saveTokenPreferences(String token) async{
+  SharedPreferences prefs=await SharedPreferences.getInstance();
+  prefs.setString("token", token);
+  return prefs.commit();
+
+}
+
+Future<String> getTokenPreferences() async {
+  SharedPreferences prefs=await SharedPreferences.getInstance();
+  String token = prefs.getString("token");
+  return token;
+}
+
+
+	Future<bool> logoutUser() async{
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+		prefs.setString("token", null);
+		return true;
+	}
+
+	showSnackBar(GlobalKey<ScaffoldState> scaffoldKey, String message) {
+		scaffoldKey.currentState.showSnackBar(
+			new SnackBar(
+				content: new Text(message ?? 'You are offline'),
+			)
+		);
+	}
