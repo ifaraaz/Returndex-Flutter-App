@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:returndex/reuseable/networkUtility.dart';
+import 'package:returndex/walkthrough.dart';
 
 class VerifyOTP extends StatefulWidget {
   final String mobileNumber ;
-  VerifyOTP({Key key , this.mobileNumber }): super (key : key) ;
+  final String requestType;
+  VerifyOTP({Key key , this.mobileNumber, this.requestType }): super (key : key) ;
+
+  
 
   @override
   _VerifyOTPState createState() => _VerifyOTPState();
@@ -10,11 +15,19 @@ class VerifyOTP extends StatefulWidget {
 }
 
 class _VerifyOTPState extends State<VerifyOTP> {
+   final GlobalKey<ScaffoldState> _scaffoldKey_otp = new GlobalKey<ScaffoldState>();
+  var _formKey_otp =GlobalKey<FormState>();
+  var mobileKey_otp = GlobalKey<FormFieldState>();
+
+  TextEditingController otpValueController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
      return SafeArea(
       child: Scaffold(
-        body: Container(
+        key: _scaffoldKey_otp,
+        body: Form(
+          key:_formKey_otp,
           child: ListView(
             children: <Widget>[
               Padding(
@@ -80,7 +93,21 @@ SizedBox(height: 20.0,),
                   Container(
                     width: 300.0,
                     child: Center(
-                      child: TextField(
+                      child: TextFormField(
+                        key: mobileKey_otp,
+                         keyboardType: TextInputType.number,
+                            maxLength: 8,
+                        controller: otpValueController,
+                         validator: (String value){
+                              if (value.isEmpty) {
+                                return "Please enter OTP received via SMS";
+                              }
+                              else if(value.isNotEmpty){
+                                 var result = value.length < 8 ? "Invalid OTP" : null;
+                                 return result;
+
+                              }
+                         },
                         decoration: InputDecoration(
                             labelText: 'Enter OTP',
                             labelStyle: TextStyle(
@@ -99,6 +126,7 @@ SizedBox(height: 20.0,),
                         color:Colors.grey,
                       ),),
  InkWell(
+   
                     onTap: (){
 
                     },
@@ -125,8 +153,13 @@ SizedBox(height: 20.0,),
                       elevation: 7.0,
                       child: InkWell(
                         onTap: () {
-                          verifyOTPandNavigate();
-                                                           },
+                          setState(() {
+                           if(_formKey_otp.currentState.validate()){
+                              verifyOTPandNavigate();
+
+                           } 
+                          });                         
+                                          },
                                                                             child: Center(
                                                                               child: Text('VERIFY',
                                                                                   style: TextStyle(
@@ -147,25 +180,37 @@ SizedBox(height: 20.0,),
                                                       
                             }
                           
-                            void verifyOTPandNavigate() {
-                              //check for otp verification throught API
-String isOTPvalid = "";
+     void verifyOTPandNavigate() async{
+       	showSnackBar(_scaffoldKey_otp, 'Please wait ...');
 
-if (isOTPvalid == "") {
-  //OTP valid 
-  //check whether it is registartion or login
-  //save values to shared preferences 
- // saveTokenPreferences("testing token");
-}
-else{
-  //show alert for invalid re-enter the value
-}
+		var responseJson =await authenticateUser("1","${widget.mobileNumber}",otpValueController.text);
+    print(responseJson);
+      
+			if(responseJson == null) {
 
-// Navigator.push(context, MaterialPageRoute(builder: (context) => MyWalkthroughScreen() ));
-                                             
-                
+				showSnackBar(_scaffoldKey_otp, 'Something went wrong! Please enter Correct OTP');
 
-                            }
+			} 
+      //  else if(responseJson['errors'] != null) {
+
+			// 	NetworkUtils.showSnackBar(_scaffoldKey, 'Invalid Email/Password');
+
+			// }
+       else {
+         // print("Successfull");
+        	showSnackBar(_scaffoldKey_otp, 'Login Successful');
+
+				/**
+				 * Removes stack and start with the new page.
+				 * In this case on press back on HomePage app will exit.
+				 * **/
+			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
+
+
+			}
+	
+		
+        }
 }
 class ImageHolder extends StatelessWidget {
   @override

@@ -97,8 +97,54 @@ try {
     
 }
 
+//Registeration with OTP verify new user and send otp
+
+Future<OtpLogin> registerwithOTP(String mobileNumber) async {
+    var endpoint = "/user/GetRegisterOtp";
+   // var url = host + endpoint;
+
+// http get request with paraemeters
+    final url = new Uri.http(host_withoutHTTP, endpoint, {
+      "CountryId": "d70504d3-c323-e911-80e5-008cfa5ac2c5",
+      "mobileno": mobileNumber
+     
+      });
+
+    Map<String,String> headers = {
+      'Content-type' : 'application/json', 
+      'Accept': 'application/json',
+    };
+try {
+  final response =
+        await http.get(url, headers: headers);
+    final responseJson = json.decode(response.body);
+    final status =response.statusCode;
+    if (status == 201) {
+      
+       OtpLogin otplogin = OtpLogin(responseJson['Otp'], responseJson['userexist']);
+   
+    return otplogin;
+
+    }
+    else if(status == 400){
+      OtpLogin otpLogin =OtpLogin("1", true);
+      return otpLogin;
+
+    }
+   
+  
+    } catch (exception) {
+  //	print(exception);
+   // logoutUser();
+		return null;
+  }
+    
+}
 
 
+
+
+// Shared Preference to save value in cache for future references
 Future<bool> saveTokenPreferences(String token) async{
   SharedPreferences prefs=await SharedPreferences.getInstance();
   prefs.setString("token", token);

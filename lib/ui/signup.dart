@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:returndex/reuseable/networkUtility.dart';
 import 'package:returndex/ui/otp_verify.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+   final GlobalKey<ScaffoldState> _scaffoldKey_register = new GlobalKey<ScaffoldState>();
+  var _formKey_register =GlobalKey<FormState>();
+  var mobileKey_register = GlobalKey<FormFieldState>();
+
+  TextEditingController registerController =TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
+        key: _scaffoldKey_register,
+        body: Form(
+          key: _formKey_register,
           child: ListView(
             children: <Widget>[
               Padding(
@@ -66,7 +81,20 @@ class SignupPage extends StatelessWidget {
                   Container(
                     width: 300.0,
                     child: Center(
-                      child: TextField(
+                      child: TextFormField(
+                        controller: registerController,
+                        keyboardType: TextInputType.number,
+                            maxLength: 10,
+                            validator: (String value){
+                              if (value.isEmpty) {
+                                return "Please enter Mobile Number";
+                              }
+                              else if(value.isNotEmpty){
+                                 var result = value.length < 10 ? "Invalid Mobile Number" : null;
+                                 return result;
+
+                              }
+                            },
                         decoration: InputDecoration(
                             labelText: 'Mobile Number',
                             labelStyle: TextStyle(
@@ -89,29 +117,56 @@ class SignupPage extends StatelessWidget {
                       elevation: 7.0,
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => VerifyOTP()));
-                        },
-                        child: Center(
-                          child: Text('SEND OTP',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+                          setState(() {
+                           if (_formKey_register.currentState.validate()) {
+                             _regiterButtonClicked();
+                                                        } 
+                                                       });
+                                                       },
+                                                     child: Center(
+                                                       child: Text('SEND OTP',
+                                                           style: TextStyle(
+                                                             color: Colors.white,
+                                                             fontWeight: FontWeight.bold,
+                                                           )),
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ),
+                                             ],
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   ),
+                                 );
+                               }
+                             
+                               void _regiterButtonClicked() async{
+                                 showSnackBar(_scaffoldKey_register, 'Please wait ...');
+                                  var responseJson =await registerwithOTP(registerController.text);
+                                  print(responseJson);
+
+  	                              if(responseJson == null) {
+                                	showSnackBar(_scaffoldKey_register, 'Something Went Wrong !');
+                                  	}
+
+                                else{
+              
+                                     String otp =responseJson.otpValue;
+                                      print("faraaz " + otp);
+                                      bool checkuser =responseJson.checkUserexist;
+                                      if (checkuser ==true) {
+                                    	showSnackBar(_scaffoldKey_register, 'This Number already Registered, please Login');        
+                                    }
+                                else if(checkuser == false){
+                                    	showSnackBar(_scaffoldKey_register, 'Sending SMS to ' + registerController.text);
+                                      Navigator.push(
+                                                    context,
+                                            MaterialPageRoute(builder: (context) => VerifyOTP(mobileNumber: registerController.text, requestType: "Register",)),
+                                            );}
+                                }
+                               }
 }
 
 class ImageHolder extends StatelessWidget {

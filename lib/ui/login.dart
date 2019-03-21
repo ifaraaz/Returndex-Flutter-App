@@ -256,6 +256,7 @@ _otpButtonClicked(String logintype) async {
 			} 
       else{
         String otp =responseJson.otpValue;
+        print("faraaz " + otp);
         bool checkuser =responseJson.checkUserexist;
         if (checkuser ==false) {
           	showSnackBar(_scaffoldKey, 'Number not Registered, please Create New Account');
@@ -265,7 +266,7 @@ _otpButtonClicked(String logintype) async {
           	showSnackBar(_scaffoldKey, 'Sending SMS to ' + mobileNumController.text);
               Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => VerifyOTP(mobileNumber: mobileNumController.text,)),
+    MaterialPageRoute(builder: (context) => VerifyOTP(mobileNumber: mobileNumController.text, requestType: "Login",)),
   );
 
         }
