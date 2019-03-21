@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
-class VerifyOTP extends StatelessWidget {
+class VerifyOTP extends StatefulWidget {
+  final String mobileNumber ;
+  VerifyOTP({Key key , this.mobileNumber }): super (key : key) ;
+
+  @override
+  _VerifyOTPState createState() => _VerifyOTPState();
+
+}
+
+class _VerifyOTPState extends State<VerifyOTP> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+     return SafeArea(
       child: Scaffold(
         body: Container(
           child: ListView(
@@ -63,7 +72,8 @@ SizedBox(height: 20.0,),
                   ),
 
                   
-                  Text("We have send OTP to 8574151908"),
+                  Text("We have send OTP to "),
+                  Text("${widget.mobileNumber}"),
                   SizedBox(
                     height: 20.0,
                   ),
@@ -116,28 +126,29 @@ SizedBox(height: 20.0,),
                       child: InkWell(
                         onTap: () {
                           verifyOTPandNavigate();
-                                 },
-                                                  child: Center(
-                                                    child: Text('VERIFY',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight.bold,
-                                                        )),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
+                                                           },
+                                                                            child: Center(
+                                                                              child: Text('VERIFY',
+                                                                                  style: TextStyle(
+                                                                                    color: Colors.white,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                  )),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      
                             }
                           
                             void verifyOTPandNavigate() {
-//check for otp verification throught API
+                              //check for otp verification throught API
 String isOTPvalid = "";
 
 if (isOTPvalid == "") {
@@ -152,9 +163,10 @@ else{
 
 // Navigator.push(context, MaterialPageRoute(builder: (context) => MyWalkthroughScreen() ));
                                              
+                
+
                             }
 }
-
 class ImageHolder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,9 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:returndex/reuseable/networkUtility.dart';
+import 'package:returndex/ui/otp_verify.dart';
 import 'package:returndex/ui/signup.dart';
 import 'package:returndex/walkthrough.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLoginPage extends StatefulWidget {
   @override
@@ -246,17 +245,30 @@ TextEditingController passwordController =TextEditingController();
 
 
 _otpButtonClicked(String logintype) async {
-
-  var responseJson =await authenticateUser(logintype,mobileNumController.text,passwordController.text);
+	showSnackBar(_scaffoldKey, 'Please wait ...');
+  var responseJson =await loginwithOTP(mobileNumController.text);
   print(responseJson);
 
   	if(responseJson == null) {
 
-				showSnackBar(_scaffoldKey, 'Something went wrong!');
+				showSnackBar(_scaffoldKey, 'Something Went Wrong !');
 
 			} 
       else{
-        print(responseJson.mobileNumber);
+        String otp =responseJson.otpValue;
+        bool checkuser =responseJson.checkUserexist;
+        if (checkuser ==false) {
+          	showSnackBar(_scaffoldKey, 'Number not Registered, please Create New Account');
+           
+                  }
+        else if(checkuser ==true){
+          	showSnackBar(_scaffoldKey, 'Sending SMS to ' + mobileNumController.text);
+              Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => VerifyOTP(mobileNumber: mobileNumController.text,)),
+  );
+
+        }
       }
 
       

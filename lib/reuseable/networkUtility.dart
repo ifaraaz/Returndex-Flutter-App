@@ -7,8 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
  
  
  	final String host = developmentHost;
+  final String host_withoutHTTP = developmentHost_withoutHTTP;
 	final String productionHost = 'https://api.returndex.com';
 	final String developmentHost = 'http://rdapi.cashaa.news/';
+  final String productionHost_withoutHTTP = "api.returndex.com";
+   final String developmentHost_withoutHTTP = "rdapi.cashaa.news";
 
 
  Future<UserDetails> authenticateUser(String logintype,String mobileNumber,String password) async {
@@ -56,6 +59,45 @@ try {
 }
     
 }
+
+
+Future<OtpLogin> loginwithOTP(String mobileNumber) async {
+    var endpoint = "/api/LoginOtp";
+   // var url = host + endpoint;
+
+// http get request with paraemeters
+    final url = new Uri.http(host_withoutHTTP, endpoint, {
+      "mobileno": mobileNumber,
+      "countryid": "d70504d3-c323-e911-80e5-008cfa5ac2c5"
+      });
+
+    Map<String,String> headers = {
+      'Content-type' : 'application/json', 
+      'Accept': 'application/json',
+    };
+try {
+  final response =
+        await http.get(url, headers: headers);
+    final responseJson = json.decode(response.body);
+    final status =response.statusCode;
+    if (status == 200) {
+      
+       OtpLogin otplogin = OtpLogin(responseJson['Otp'], responseJson['userexist']);
+   
+    return otplogin;
+
+    }
+   
+  
+    } catch (exception) {
+  //	print(exception);
+   // logoutUser();
+		return null;
+  }
+    
+}
+
+
 
 Future<bool> saveTokenPreferences(String token) async{
   SharedPreferences prefs=await SharedPreferences.getInstance();
