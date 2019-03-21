@@ -155,7 +155,15 @@ SizedBox(height: 20.0,),
                         onTap: () {
                           setState(() {
                            if(_formKey_otp.currentState.validate()){
-                              verifyOTPandNavigate();
+                             String checkRequestType = "${widget.requestType}";
+                             if (checkRequestType == "Login") {
+                                verifyOTPandNavigate();
+                             }
+                             else if (checkRequestType == "Register"){
+                               verifyOTPandRegister();
+
+                             }
+                             
 
                            } 
                           });                         
@@ -184,20 +192,13 @@ SizedBox(height: 20.0,),
        	showSnackBar(_scaffoldKey_otp, 'Please wait ...');
 
 		var responseJson =await authenticateUser("1","${widget.mobileNumber}",otpValueController.text);
-    print(responseJson);
-      
+    print(responseJson);     
 			if(responseJson == null) {
-
 				showSnackBar(_scaffoldKey_otp, 'Something went wrong! Please enter Correct OTP');
-
 			} 
-      //  else if(responseJson['errors'] != null) {
-
-			// 	NetworkUtils.showSnackBar(_scaffoldKey, 'Invalid Email/Password');
-
-			// }
+     
        else {
-         // print("Successfull");
+         
         	showSnackBar(_scaffoldKey_otp, 'Login Successful');
 
 				/**
@@ -205,13 +206,52 @@ SizedBox(height: 20.0,),
 				 * In this case on press back on HomePage app will exit.
 				 * **/
 			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
-
-
 			}
-	
-		
         }
+
+
+
+     //used when verify OTP for Register New User   
+
+   void verifyOTPandRegister() async{
+       	showSnackBar(_scaffoldKey_otp, 'Please wait ...');
+
+		var responseJson =await registerNewUser("${widget.mobileNumber}",otpValueController.text);
+      print(responseJson);     
+			if(responseJson == null) {
+				showSnackBar(_scaffoldKey_otp, 'Something went wrong! Please enter Correct OTP');
+			} 
+     
+       else {
+         
+        	showSnackBar(_scaffoldKey_otp, 'Register Successful');
+
+				/**
+				 * Removes stack and start with the new page.
+				 * In this case on press back on HomePage app will exit.
+				 * **/
+			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
+			}
+   }
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
 class ImageHolder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

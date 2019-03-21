@@ -60,7 +60,7 @@ try {
     
 }
 
-
+// this is used when user login with OTP
 Future<OtpLogin> loginwithOTP(String mobileNumber) async {
     var endpoint = "/api/LoginOtp";
    // var url = host + endpoint;
@@ -141,6 +141,48 @@ try {
     
 }
 
+//--------------------END-------------
+
+//verify register OTP and register new user 
+
+ Future<UserDetails> registerNewUser(String mobileNumber,String password) async {
+    var endpoint = "user/register";
+    var url = host + endpoint;
+    var body = json.encode({
+          "Password": password,
+          "CountryId": "d70504d3-c323-e911-80e5-008cfa5ac2c5",
+          "Mobile": mobileNumber,
+          "Name": "NA",
+          "userType": 1,
+          "registertype": 1,
+          "Email": "na@xyz.n"        
+      });
+
+    Map<String,String> headers = {
+      'Content-type' : 'application/json', 
+      'Accept': 'application/json',
+    };
+try {
+  final response =
+        await http.post(url, body: body, headers: headers);
+    final responseJson = json.decode(response.body);
+    final status =response.statusCode;
+    
+    if (status == 201) {
+      //send to login on successfull register
+      authenticateUser("1", mobileNumber, password);
+      UserDetails user =UserDetails("", mobileNumber);
+      return user;
+      
+    } 
+} catch (exception) {
+  //	print(exception);
+    logoutUser();
+		return null;
+  } 
+}
+
+//-------------------END-------------------
 
 
 
