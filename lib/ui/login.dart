@@ -256,13 +256,14 @@ _otpButtonClicked(String logintype) async {
 			} 
       else{
         String otp =responseJson.otpValue;
+        if(otp == null){otp = "0";}
         print("faraaz " + otp);
         bool checkuser =responseJson.checkUserexist;
-        if (checkuser ==false) {
+        if (checkuser == false) {
           	showSnackBar(_scaffoldKey, 'Number not Registered, please Create New Account');
            
                   }
-        else if(checkuser ==true){
+        else if(checkuser == true){
           	showSnackBar(_scaffoldKey, 'Sending SMS to ' + mobileNumController.text);
               Navigator.push(
     context,
@@ -281,30 +282,35 @@ _loginButtonClicked(String logintype) async {
 
 		var responseJson =await authenticateUser(logintype,mobileNumController.text,passwordController.text);
     print(responseJson);
-      
-			if(responseJson == null) {
-
-				showSnackBar(_scaffoldKey, 'Something went wrong! Please try valid crrdentials');
-
-			} 
-      //  else if(responseJson['errors'] != null) {
-
-			// 	NetworkUtils.showSnackBar(_scaffoldKey, 'Invalid Email/Password');
-
-			// }
-       else {
-        print("Successfull");
-        	showSnackBar(_scaffoldKey, 'Login Successful');
-
+       String message =responseJson.message;
+    if (message == "Login Successfully") {
+      //login successfull
+      	showSnackBar(_scaffoldKey, 'Login Successful');
 				/**
 				 * Removes stack and start with the new page.
 				 * In this case on press back on HomePage app will exit.
 				 * **/
 			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
 
+    }
+		else if(message == "Invalid Request"){
 
-			}
-	
+				showSnackBar(_scaffoldKey, message);
+
+			} 
+       else if (message == "Incorrect Login Credentials !")
+    {
+      // username password is incorrect
+      	showSnackBar(_scaffoldKey, message);
+    }
+			else if(responseJson == null) {
+				showSnackBar(_scaffoldKey, 'Something went wrong! Try again after sometime');
+			} 
+      else {
+        showSnackBar(_scaffoldKey, 'Something went wrong!');
+      }
+      
+      
 		} 
 		
 	}

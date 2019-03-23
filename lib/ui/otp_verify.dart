@@ -96,14 +96,14 @@ SizedBox(height: 20.0,),
                       child: TextFormField(
                         key: mobileKey_otp,
                          keyboardType: TextInputType.number,
-                            maxLength: 8,
+                            maxLength: 4,
                         controller: otpValueController,
                          validator: (String value){
                               if (value.isEmpty) {
                                 return "Please enter OTP received via SMS";
                               }
                               else if(value.isNotEmpty){
-                                 var result = value.length < 8 ? "Invalid OTP" : null;
+                                 var result = value.length < 4 ? "Invalid OTP" : null;
                                  return result;
 
                               }
@@ -192,21 +192,34 @@ SizedBox(height: 20.0,),
        	showSnackBar(_scaffoldKey_otp, 'Please wait ...');
 
 		var responseJson =await authenticateUser("1","${widget.mobileNumber}",otpValueController.text);
-    print(responseJson);     
-			if(responseJson == null) {
-				showSnackBar(_scaffoldKey_otp, 'Something went wrong! Please enter Correct OTP');
-			} 
-     
-       else {
-         
-        	showSnackBar(_scaffoldKey_otp, 'Login Successful');
+    print(responseJson);   
+    String message =responseJson.message;
+    if (message == "Login Successfully") {
+      //login suceess
+      	showSnackBar(_scaffoldKey_otp, message);
 
 				/**
 				 * Removes stack and start with the new page.
 				 * In this case on press back on HomePage app will exit.
 				 * **/
 			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
-			}
+			
+    }  
+    else if(message == "Invalid Request")
+    {
+      //invalid request 
+      	showSnackBar(_scaffoldKey_otp, message);
+
+    }
+    else if (message == "Incorrect Login Credentials !")
+    {
+      // username password is incorrect
+      	showSnackBar(_scaffoldKey_otp, message);
+    }
+			else if(responseJson == null) {
+				showSnackBar(_scaffoldKey_otp, 'Something went wrong! Try again after sometime');
+			} 
+     
         }
 
 

@@ -31,15 +31,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 try {
   final response =
         await http.post(url, body: body, headers: headers);
-    final responseJson = json.decode(response.body);
-    final status =response.statusCode;
+         final status =response.statusCode;
+    
+   
     if (status == 201) {
-      
-       UserDetails user = UserDetails(responseJson['AccessToken'], responseJson['Mobileno']);
+      final responseJson = json.decode(response.body);
+       UserDetails user = UserDetails(responseJson['AccessToken'], responseJson['Mobileno'],"Login Successfully");
    if (user.accessToken.isNotEmpty) {
      saveTokenPreferences(user.accessToken);
-   
-  
     return user;
     }
     else {
@@ -47,9 +46,21 @@ try {
 
     }
    
-     
+  }
+  else if(status == 400)
+  {
+    //inalid request
+    UserDetails user =UserDetails("", "", "Invalid Request");
+    return user;
 
-    }
+  }
+  else if(status == 401){
+     UserDetails user =UserDetails("", "", "Incorrect Login Credentials !");
+    return user;
+  }
+  else {
+    return null;
+  }
    
   
 } catch (exception) {
@@ -171,7 +182,7 @@ try {
     if (status == 201) {
       //send to login on successfull register
       authenticateUser("1", mobileNumber, password);
-      UserDetails user =UserDetails("", mobileNumber);
+      UserDetails user =UserDetails("", mobileNumber,"");
       return user;
       
     } 

@@ -1,8 +1,9 @@
 class UserDetails {
   final String accessToken;
   final String mobileNumber;
+  final String message;
  
-  UserDetails(this.accessToken, this.mobileNumber);
+  UserDetails(this.accessToken, this.mobileNumber, this.message);
 }
 
 class OtpLogin{
