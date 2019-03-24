@@ -25,3 +25,11 @@ class tagslist{
 }
 }
 
+class activateTag{
+  final bool isValid ;
+  final String uniqueid ;
+  final bool isActive;
+
+  activateTag(this.isValid,this.uniqueid,this.isActive);
+}
+

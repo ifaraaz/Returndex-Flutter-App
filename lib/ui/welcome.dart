@@ -53,7 +53,7 @@ Future<bool> _onBackPressed() {
                       fontWeight: FontWeight.bold,
                     )
                   ),
-                  SizedBox(width:95.0),
+                  SizedBox(width:125.0),
                   IconButton(
 icon: Icon(Icons.notifications),
 color: Colors.grey.shade500,
@@ -108,7 +108,7 @@ onPressed: (){}, // icon pressed function
                       }, // press event
                     ),
 
-                    SizedBox(width: 5.0,),
+                    SizedBox(width: 15.0,),
                     Padding(
                       padding: EdgeInsets.only(top: 1.0,left: 1.0),
                       child: Center(
@@ -123,7 +123,8 @@ onPressed: (){}, // icon pressed function
                       ),
                       ),
 
-                      SizedBox(width: 10.0,),
+                      SizedBox(width: 20.0,),
+                      
 IconButton(
   icon: Icon(Icons.arrow_forward_ios,color:Colors.grey.shade500),
   iconSize: 30.0,

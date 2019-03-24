@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:returndex/model/Auth.dart';
+import 'package:returndex/model/taglist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
  
  
@@ -12,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 	final String developmentHost = 'http://rdapi.cashaa.news/';
   final String productionHost_withoutHTTP = "api.returndex.com";
    final String developmentHost_withoutHTTP = "rdapi.cashaa.news";
+
+   String authToken = "";
 
 
  Future<UserDetails> authenticateUser(String logintype,String mobileNumber,String password) async {
@@ -197,6 +200,116 @@ try {
 
 
 
+//--------------Activate Tag----------------Token Required
+
+Future<activateTag> activateUniqueTag(String uniqueID) async {
+    var auth_Token =getTokenPreferences();
+    if (authToken != "") {
+   
+    String authorization = "Basic "+authToken;
+     print(authorization);
+
+
+    var endpoint = "user/ActivateTag";
+    var url = host + endpoint;
+    var body = json.encode({
+          "tagno": uniqueID,      
+      });
+
+
+    Map<String,String> headers = {
+      'Content-Type' : 'application/json', 
+      'Accept': 'application/json',
+      'Authorization':authorization,
+    };
+try {
+  final response =
+        await http.post(url, body: body, headers: headers);
+    
+    final status =response.statusCode;
+    print(status);
+   
+    if (status == 201) {
+       final responseJson = json.decode(response.body);
+       activateTag tag = activateTag(responseJson['InValid'], responseJson['tagnumber'],responseJson['isActive']);
+   
+       return tag;
+
+    }
+    else {
+     
+      return null;
+
+    }
+   
+  
+    } catch (exception) {
+  //	print(exception);
+   // logoutUser();
+		return null;
+  }
+    }
+    else{
+      logoutUser();
+    }
+}
+
+//--------------------END-------------
+
+//----------------GET Activated Tag List -----------Token based
+Future<List<tagslist>> getActivatedTagList() async {
+    var endpoint = "/user/GetTagList";
+   var auth_Token =getTokenPreferences();
+    if (authToken != "") {
+   
+    String authorization = "Basic "+authToken;
+     print(authorization);
+
+// http get request with paraemeters
+    final url = new Uri.http(host_withoutHTTP, endpoint, {
+      "requestModel.page": '1',
+      "requestModel.take": "10"
+      });
+
+    Map<String,String> headers = {
+      'Content-Type' : 'application/json', 
+      'Accept': 'application/json',
+      'Authorization':authorization,
+    };
+try {
+  final response =
+        await http.get(url, headers: headers);
+   
+    final status =response.statusCode;
+    if (status == 200) {
+       final responseJson = json.decode(response.body);
+       List<tagslist> taglist = [];
+      
+      for( var u in responseJson){
+
+      tagslist tags = tagslist(tagID:u[""],tagStatus: u[""]);
+      taglist.add(tags);
+      return taglist;
+}
+   
+    
+
+    }
+   
+  
+    } catch (exception) {
+  //	print(exception);
+   // logoutUser();
+		return null;
+  }
+    
+}
+}
+
+//---------------------------END-------------------
+
+
+
 // Shared Preference to save value in cache for future references
 Future<bool> saveTokenPreferences(String token) async{
   SharedPreferences prefs=await SharedPreferences.getInstance();
@@ -205,16 +318,23 @@ Future<bool> saveTokenPreferences(String token) async{
 
 }
 
-Future<String> getTokenPreferences() async {
+ Future<String> getTokenPreferences() async {
+  SharedPreferences prefs=await SharedPreferences.getInstance();
+  String token = prefs.getString("token");
+  authToken =token;
+  return token;
+}
+
+getAuthTokenString() async{
   SharedPreferences prefs=await SharedPreferences.getInstance();
   String token = prefs.getString("token");
   return token;
 }
 
-
 	Future<bool> logoutUser() async{
     SharedPreferences prefs=await SharedPreferences.getInstance();
 		prefs.setString("token", null);
+     prefs.clear();
 		return true;
 	}
 
