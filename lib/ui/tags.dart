@@ -170,7 +170,7 @@ fontWeight: FontWeight.bold,
            children: <Widget>[
                Icon(Icons.priority_high,color: Colors.blue,),
                Text("Recent Tags"),
-               SizedBox(width: 130.0,),
+               SizedBox(width: 150.0,),
        InkWell(
          child: Text("View all",style: TextStyle(color:Colors.blue),),
          onTap: (){},
@@ -198,7 +198,45 @@ fontWeight: FontWeight.bold,
          
         child: Container(
                  height: 250.0,
-       child: getnewtaglist(context), //Listview Widget calling 
+       child: Container(
+          child: FutureBuilder(
+            future: getActivatedTagList(),
+            builder: (context,snapshot){
+
+
+              if (snapshot.data ==null) {
+                return Container(
+                  child: Center(
+                   // child: Text("Loading"),
+                   child: CircularProgressIndicator()
+                  ),
+                );
+              }
+              else{
+                 return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context , int index){
+                  return ListTile(
+                   leading: Icon(Icons.receipt,color:Colors.blue,size: 30.0,),
+                   title: Text(snapshot.data[index].tagid,
+                   style:TextStyle(
+                     fontFamily: 'Bauhaus',
+                     fontWeight: FontWeight.bold,
+                     fontSize: 18.0,
+                   )),
+                   subtitle: Text(snapshot.data[index].isActive,
+                   style:TextStyle(
+                     color: Colors.green,
+                   )),
+                 );
+                },
+
+              );
+              }
+             
+            },
+          ),
+        ), //Listview Widget calling 
                ),
          
           
@@ -217,83 +255,7 @@ fontWeight: FontWeight.bold,
 
 
 
-      getnewtaglist(BuildContext context){
-        Container(
-          child: FutureBuilder(
-            future: getActivatedTagList(),
-            builder: (context,snapshot){
-              if (snapshot.data ==null) {
-                return Container(
-                  child: Center(
-                    child: Text("Loading..."),
-                  ),
-                );
-              }
-              else{
-                 return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context , int index){
-                  return ListTile(
-                   leading: Icon(Icons.receipt,color:Colors.blue,size: 30.0,),
-                   title: Text(snapshot.data[index].tagID,
-                   style:TextStyle(
-                     fontFamily: 'Bauhaus',
-                     fontWeight: FontWeight.bold,
-                     fontSize: 18.0,
-                   )),
-                   subtitle: Text(snapshot.data[index].tagStatus,
-                   style:TextStyle(
-                     color: Colors.green,
-                   )),
-                 );
-                },
-
-              );
-              }
-             
-            },
-          ),
-        );
-      }
-
-       // making this widget to get listview 
-        //  getalltagslist(BuildContext context) {
-        //    return ListView.builder(
-        //    itemCount: _alltagslist.length,
-        //    itemBuilder: _getItemUI,
-        //    padding: EdgeInsets.all(0.0),
-          
-        //  );
-       
-        //  }
-       
-        //  Widget _getItemUI(BuildContext context, int index) {
-        //    return new 
-        //    Card(
-        //      color: Colors.grey.shade50,
-            
-        //      child: new Column(
-               
-        //        children: <Widget>[
-        //          ListTile(
-        //            leading: Icon(Icons.receipt,color:Colors.blue,size: 30.0,),
-        //            title: Text(_alltagslist[index].tagID,
-        //            style:TextStyle(
-        //              fontFamily: 'Bauhaus',
-        //              fontWeight: FontWeight.bold,
-        //              fontSize: 18.0,
-        //            )),
-        //            subtitle: Text(_alltagslist[index].tagStatus,
-        //            style:TextStyle(
-        //              color: Colors.green,
-        //            )),
-        //          )
-        //        ],
-        //      ),
-        //              //title: Text(_alltagslist[index].tagID),
-        //            );
-           
-        //  }
+     
        
          void checkAndAcivateTag() async{
            var responsebody = await activateUniqueTag(tagController.text);

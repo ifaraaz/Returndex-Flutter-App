@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:returndex/ui/restapidata.dart';
 import 'tags.dart';
 import 'package:returndex/reuseable/slideanimation.dart';
 
@@ -131,7 +132,7 @@ IconButton(
   onPressed: (
       
   ){
- Navigator.push(context, SlideLeftRoute(widget: MyTagsPage())); 
+  Navigator.push(context, SlideLeftRoute(widget: MyTagsPage())); 
       
   }, // icon pressed function
 
@@ -227,7 +228,7 @@ color:Colors.redAccent,
 
 
               Container(
-                height:MediaQuery.of(context).size.height/3.5,
+                height:MediaQuery.of(context).size.height/3,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("images/waves.png"),

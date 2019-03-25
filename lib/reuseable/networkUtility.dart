@@ -257,7 +257,7 @@ try {
 //--------------------END-------------
 
 //----------------GET Activated Tag List -----------Token based
-Future<List<tagslist>> getActivatedTagList() async {
+Future<List<TotaltagList>> getActivatedTagList() async {
     var endpoint = "/user/GetTagList";
    var auth_Token =getTokenPreferences();
     if (authToken != "") {
@@ -281,20 +281,45 @@ try {
         await http.get(url, headers: headers);
    
     final status =response.statusCode;
+    print(status);
+     List<TotaltagList> listoftags = [];
     if (status == 200) {
        final responseJson = json.decode(response.body);
-       List<tagslist> taglist = [];
+       final jsondata =responseJson["Items"];
       
-      for( var u in responseJson){
 
-      tagslist tags = tagslist(tagID:u[""],tagStatus: u[""]);
-      taglist.add(tags);
-      return taglist;
+       for (var u in jsondata) {
+         
+         TotaltagList tag = TotaltagList(u["tagnumber"],u["isActive"]);
+         if (tag.isActive == true) 
+         {
+          tag.isActive = "Active"; 
+         }
+         else{
+           tag.isActive = "Error"; 
+         }
+          
+          listoftags.add(tag);
+         
+       }
+
+      
+      print(listoftags.length);
+      if (listoftags.length == 0) {
+        TotaltagList tag = TotaltagList("No Tags Found ","Please activate your tag");
+        listoftags.add(tag);
+      }
+      
+     
+      return listoftags;
+}
+else{
+  TotaltagList tag = TotaltagList("No Tags Found"," ");
+  listoftags.add(tag);
+  return listoftags;
+
 }
    
-    
-
-    }
    
   
     } catch (exception) {

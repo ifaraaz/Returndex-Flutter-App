@@ -36,7 +36,7 @@ class RestApiData extends StatelessWidget {
                 itemBuilder: (BuildContext context , int index){
                   return ListTile(
                     leading: Icon(Icons.blur_on,color:Colors.blue),
-                    title: Text(snapshot.data[index].cityName),
+                    title: Text(snapshot.data[index].cityname),
                     subtitle: Text(snapshot.data[index].countryCode + ' ' + snapshot.data[index].countryName),
 
                   );
