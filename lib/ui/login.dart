@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:returndex/reuseable/networkUtility.dart';
-import 'package:returndex/ui/otp_verify.dart';
-import 'package:returndex/ui/signup.dart';
-import 'package:returndex/walkthrough.dart';
+import 'package:ReturnDex/reuseable/networkUtility.dart';
+import 'package:ReturnDex/ui/otp_verify.dart';
+import 'package:ReturnDex/ui/signup.dart';
+import 'package:ReturnDex/walkthrough.dart';
 
 class MyLoginPage extends StatefulWidget {
   @override
@@ -232,9 +232,8 @@ TextEditingController passwordController =TextEditingController();
                                          }
                                                                     
                                                                       void otpButtonClicked() {
-                                                                        if (mobileKey.currentState.validate()) {
-                                                                         // getloginpassword();
-
+if (mobileKey.currentState.validate()) {
+ // getloginpassword();
 	_otpButtonClicked("1");
              }
                                                                        
@@ -246,6 +245,7 @@ TextEditingController passwordController =TextEditingController();
 
 _otpButtonClicked(String logintype) async {
 	showSnackBar(_scaffoldKey, 'Please wait ...');
+ 
   var responseJson =await loginwithOTP(mobileNumController.text);
   print(responseJson);
 
@@ -261,6 +261,7 @@ _otpButtonClicked(String logintype) async {
         bool checkuser =responseJson.checkUserexist;
         if (checkuser == false) {
           	showSnackBar(_scaffoldKey, 'Number not Registered, please Create New Account');
+             
            
                   }
         else if(checkuser == true){

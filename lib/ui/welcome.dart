@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:returndex/ui/restapidata.dart';
+import 'package:ReturnDex/ui/restapidata.dart';
 import 'tags.dart';
-import 'package:returndex/reuseable/slideanimation.dart';
+import 'package:ReturnDex/reuseable/slideanimation.dart';
 
 class MyWelcomePage extends StatefulWidget {
   @override
@@ -54,7 +54,7 @@ Future<bool> _onBackPressed() {
                       fontWeight: FontWeight.bold,
                     )
                   ),
-                  SizedBox(width:125.0),
+                  SizedBox(width:105.0),
                   IconButton(
 icon: Icon(Icons.notifications),
 color: Colors.grey.shade500,
@@ -124,7 +124,7 @@ onPressed: (){}, // icon pressed function
                       ),
                       ),
 
-                      SizedBox(width: 20.0,),
+                      SizedBox(width: 10.0,),
                       
 IconButton(
   icon: Icon(Icons.arrow_forward_ios,color:Colors.grey.shade500),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:returndex/model/taglist.dart';
-import 'package:returndex/reuseable/networkUtility.dart';
+import 'package:ReturnDex/model/taglist.dart';
+import 'package:ReturnDex/reuseable/networkUtility.dart';
 
 class MyTagsPage extends StatefulWidget {
 

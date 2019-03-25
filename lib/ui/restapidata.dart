@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:returndex/model/Auth.dart';
-import 'package:returndex/model/taglist.dart';
+import 'package:ReturnDex/model/Auth.dart';
+import 'package:ReturnDex/model/taglist.dart';
 
 
 class RestApiData extends StatelessWidget {

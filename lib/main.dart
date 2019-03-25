@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:returndex/reuseable/networkUtility.dart';
-import 'package:returndex/ui/login.dart';
-import 'package:returndex/ui/welcome.dart';
+import 'package:ReturnDex/reuseable/networkUtility.dart';
+import 'package:ReturnDex/ui/login.dart';
+import 'package:ReturnDex/ui/otp_verify.dart';
+import 'package:ReturnDex/ui/tags.dart';
+import 'package:ReturnDex/ui/welcome.dart';
+import 'package:ReturnDex/walkthrough.dart';
 
 
 void main() => runApp(MyApp());
@@ -17,15 +21,16 @@ class MyApp extends StatelessWidget {
     accentColor: Colors.lightBlue,)
     ,
       home: MySplashScreen(),
+      routes: <String, WidgetBuilder> {
+    '/login': (BuildContext context) => MyLoginPage(),
+    '/verifyOTP' : (BuildContext context) => VerifyOTP(),
+    '/walkthrough' : (BuildContext context) => MyWalkthroughScreen(),
+    '/welcome' : (BuildContext context) => MyWelcomePage(),
+    '/tags' : (BuildContext context) => MyTagsPage()
+  },
     );
   }
 }
-
-
-
-
-
-
 
 
 class MySplashScreen extends StatefulWidget {
@@ -44,10 +49,12 @@ class _MySplashScreenState extends State<MySplashScreen> {
     
         Timer(
       Duration(
-        seconds: 2 // set duration of splash screen in seconds
+        seconds: 4 // set duration of splash screen in seconds
       ),
 
-()=>navigateRoute()
+()=>
+
+navigateRoute()
      // ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage() ))
 
       //()=> Navigator.push(context, MaterialPageRoute(builder: (context) => MyLoginPage() )) /// need to place login page here 
@@ -61,16 +68,39 @@ class _MySplashScreenState extends State<MySplashScreen> {
 
 
 void navigateRoute(){
-  if (_token == "" || _token == null) {
+internetConnectivityCheck().then((intenet) {
+      if (intenet != null && intenet) {
+        // Internet Present Case
+        if (_token == "" || _token == null) {
     //not login
    // print(_token);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyLoginPage()));
+    Navigator.of(context).pushReplacementNamed('/login');
   }
   else{
     //login
     print(_token + " login ");
-     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWelcomePage()));
+     Navigator.of(context).pushReplacementNamed('/welcome');
   }
+      }
+      else{
+         // No-Internet Case
+         showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Error !'),
+        content: new Text('No Internet Connectivity.'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => exit(0),
+            child: new Text('Close'),
+          ),
+         
+        ],
+      ),
+    ) ?? false;
+      }
+     
+    });
 }
 
 

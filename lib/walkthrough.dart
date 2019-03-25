@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
-import 'package:returndex/ui/welcome.dart';
+import 'package:ReturnDex/ui/welcome.dart';
 
 class MyWalkthroughScreen extends StatefulWidget {
   @override
@@ -51,12 +51,12 @@ class MySplashScreenState extends State<MyWalkthroughScreen> {
 
   void onDonePress() {
     // TODO: go to next screen
-     Navigator.push(context, MaterialPageRoute(builder: (context) => MyWelcomePage() ));
+     Navigator.of(context).pushReplacementNamed('/welcome');
   }
 
   void onSkipPress() {
     // TODO: go to next screen
-     Navigator.push(context, MaterialPageRoute(builder: (context) => MyWelcomePage() ));
+     Navigator.of(context).pushReplacementNamed('/welcome');
   }
 
   @override

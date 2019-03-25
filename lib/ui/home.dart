@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:returndex/bottombar/home_ui_bar.dart';
-import 'package:returndex/bottombar/profile_ui_bar.dart';
-import 'package:returndex/bottombar/search_ui_bar.dart';
+import 'package:ReturnDex/bottombar/home_ui_bar.dart';
+import 'package:ReturnDex/bottombar/profile_ui_bar.dart';
+import 'package:ReturnDex/bottombar/search_ui_bar.dart';
 
 class MyHomePage extends StatefulWidget {
   @override

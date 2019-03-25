@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:returndex/reuseable/networkUtility.dart';
-import 'package:returndex/ui/otp_verify.dart';
+import 'package:ReturnDex/reuseable/networkUtility.dart';
+import 'package:ReturnDex/ui/otp_verify.dart';
 
 class SignupPage extends StatefulWidget {
   @override

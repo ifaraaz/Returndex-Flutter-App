@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:returndex/model/Auth.dart';
-import 'package:returndex/model/taglist.dart';
+import 'package:ReturnDex/model/Auth.dart';
+import 'package:ReturnDex/model/taglist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:connectivity/connectivity.dart';
+
  
  
  	final String host = developmentHost;
@@ -12,11 +14,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 	final String productionHost = 'https://api.returndex.com';
 	final String developmentHost = 'http://rdapi.cashaa.news/';
   final String productionHost_withoutHTTP = "api.returndex.com";
-   final String developmentHost_withoutHTTP = "rdapi.cashaa.news";
+  final String developmentHost_withoutHTTP = "rdapi.cashaa.news";
 
    String authToken = "";
 
+//--------Internet Connectiviy Check ----------------
+Future<bool> internetConnectivityCheck() async {
+        var connectivityResult = await (Connectivity().checkConnectivity());
+        if (connectivityResult == ConnectivityResult.mobile) {
+          return true;
+        } else if (connectivityResult == ConnectivityResult.wifi) {
+          return true;
+        }
+        return false;
+      }
 
+
+//----------------------END----------------
+
+//------------------LOgin USER---------------
  Future<UserDetails> authenticateUser(String logintype,String mobileNumber,String password) async {
     var endpoint = "api/Auth";
     var url = host + endpoint;
@@ -313,6 +329,9 @@ try {
      
       return listoftags;
 }
+else if(status == "401"){
+logoutUser();
+}
 else{
   TotaltagList tag = TotaltagList("No Tags Found"," ");
   listoftags.add(tag);
@@ -360,6 +379,7 @@ getAuthTokenString() async{
     SharedPreferences prefs=await SharedPreferences.getInstance();
 		prefs.setString("token", null);
      prefs.clear();
+     
 		return true;
 	}
 

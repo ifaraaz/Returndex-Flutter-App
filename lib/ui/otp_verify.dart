@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:returndex/reuseable/networkUtility.dart';
-import 'package:returndex/walkthrough.dart';
+import 'package:ReturnDex/reuseable/networkUtility.dart';
+import 'package:ReturnDex/walkthrough.dart';
 
 class VerifyOTP extends StatefulWidget {
   final String mobileNumber ;
@@ -202,7 +202,7 @@ SizedBox(height: 20.0,),
 				 * Removes stack and start with the new page.
 				 * In this case on press back on HomePage app will exit.
 				 * **/
-			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
+			 Navigator.of(context).pushReplacementNamed('/walkthrough');
 			
     }  
     else if(message == "Invalid Request")
@@ -243,7 +243,7 @@ SizedBox(height: 20.0,),
 				 * Removes stack and start with the new page.
 				 * In this case on press back on HomePage app will exit.
 				 * **/
-			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
+			 			 Navigator.of(context).pushReplacementNamed('/walkthrough');
 			}
    }
 
