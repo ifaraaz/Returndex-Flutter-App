@@ -155,6 +155,9 @@ SizedBox(height: 20.0,),
                         onTap: () {
                           setState(() {
                            if(_formKey_otp.currentState.validate()){
+                              FocusScope.of(context).requestFocus(new FocusNode());
+
+
                              String checkRequestType = "${widget.requestType}";
                              if (checkRequestType == "Login") {
                                 verifyOTPandNavigate();

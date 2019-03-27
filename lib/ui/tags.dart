@@ -154,6 +154,7 @@ fontWeight: FontWeight.bold,
         elevation: 7.0,
    onPressed: (){
      if (_formKey_tag.currentState.validate()) {
+        FocusScope.of(context).requestFocus(new FocusNode());
        checkAndAcivateTag();
             }
           },

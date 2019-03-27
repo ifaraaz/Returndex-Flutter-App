@@ -225,6 +225,7 @@ TextEditingController passwordController =TextEditingController();
                                   void loginValidateClicked() {
                                   setState(() {
                                    if (_formKey.currentState.validate()) {
+                                     FocusScope.of(context).requestFocus(new FocusNode());
                                               _loginButtonClicked("2");
                                           }
                                             });
@@ -244,6 +245,7 @@ if (mobileKey.currentState.validate()) {
 
 
 _otpButtonClicked(String logintype) async {
+   FocusScope.of(context).requestFocus(new FocusNode());
 	showSnackBar(_scaffoldKey, 'Please wait ...');
  
   var responseJson =await loginwithOTP(mobileNumController.text);
