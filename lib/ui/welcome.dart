@@ -1,7 +1,10 @@
+import 'package:ReturnDex/reuseable/networkUtility.dart';
 import 'package:flutter/material.dart';
 import 'package:ReturnDex/ui/restapidata.dart';
 import 'tags.dart';
 import 'package:ReturnDex/reuseable/slideanimation.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyWelcomePage extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class MyWelcomePage extends StatefulWidget {
 }
 
 class _MyWelcomePageState extends State<MyWelcomePage> {
+   var _scafoldkey_welcome =GlobalKey<ScaffoldState>();
 
 Future<bool> _onBackPressed() {
     return showDialog(
@@ -37,6 +41,52 @@ Future<bool> _onBackPressed() {
      return WillPopScope(
       onWillPop: _onBackPressed,
           child: Scaffold(
+            key: _scafoldkey_welcome,
+            floatingActionButton: SpeedDial(
+          // both default to 16
+          marginRight: 18,
+          marginBottom: 20,
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22.0),
+          // this is ignored if animatedIcon is non null
+          // child: Icon(Icons.add),
+          visible: true,
+          curve: Curves.bounceIn,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          onOpen: () => print('OPENING DIAL'),
+          onClose: () => print('DIAL CLOSED'),
+          tooltip: 'Support',
+          heroTag: 'returndex-support',
+          
+          backgroundColor: Colors.redAccent,
+          foregroundColor: Colors.white,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.call),
+              backgroundColor: Colors.blueAccent,
+              label: 'Call us',
+             
+              onTap: () => _openURL("tel:+918574151908")
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.mail_outline),
+              backgroundColor: Colors.blueAccent,
+              label: 'Email us',
+             
+              onTap: () => _openURL("mailto:support@returndex.com?subject=Support mail from App&body=RETURNDEX")
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.open_in_browser),
+              backgroundColor: Colors.blueAccent,
+              label: 'Open website',
+             
+              onTap: () => _openURL("http://returndex.com")
+            ),
+          ],
+        ),
         
         body: ListView(
           children: <Widget>[
@@ -247,5 +297,15 @@ color:Colors.redAccent,
 
 
     
+  }
+  _openURL(String url) async{
+     print("open url clicked");
+     if(await canLaunch(url)){
+       launch(url);
+     }
+     else{
+        	showSnackBar(_scafoldkey_welcome, "Some Error Occured !");
+
+     }
   }
 }
