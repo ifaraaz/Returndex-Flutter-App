@@ -273,7 +273,7 @@ try {
 //--------------------END-------------
 
 //----------------GET Activated Tag List -----------Token based
-Future<List<TotaltagList>> getActivatedTagList() async {
+Future<List<TotaltagList>> getActivatedTagList(BuildContext context) async {
     var endpoint = "/user/GetTagList";
    var auth_Token =getTokenPreferences();
     if (authToken != "") {
@@ -298,6 +298,7 @@ try {
    
     final status =response.statusCode;
     print(status);
+    print("status");
      List<TotaltagList> listoftags = [];
     if (status == 200) {
        final responseJson = json.decode(response.body);
@@ -329,8 +330,11 @@ try {
      
       return listoftags;
 }
-else if(status == "401"){
+else if(status == 401){
 logoutUser();
+Navigator.of(context).pop();
+Navigator.of(context).pushReplacementNamed('/login');
+
 }
 else{
   TotaltagList tag = TotaltagList("No Tags Found"," ");
@@ -379,6 +383,7 @@ getAuthTokenString() async{
     SharedPreferences prefs=await SharedPreferences.getInstance();
 		prefs.setString("token", null);
      prefs.clear();
+     
      
 		return true;
 	}

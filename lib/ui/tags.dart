@@ -201,7 +201,7 @@ fontWeight: FontWeight.bold,
                  height: 250.0,
        child: Container(
           child: FutureBuilder(
-            future: getActivatedTagList(),
+            future: getActivatedTagList(context),
             builder: (context,snapshot){
 
 
