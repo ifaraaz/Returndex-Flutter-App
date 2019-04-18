@@ -12,9 +12,9 @@ import 'package:connectivity/connectivity.dart';
  	final String host = developmentHost;
   final String host_withoutHTTP = developmentHost_withoutHTTP;
 	final String productionHost = 'https://api.returndex.com';
-	final String developmentHost = 'http://rdapi.cashaa.news/';
+	final String developmentHost = 'http://rd.team3d.in/';
   final String productionHost_withoutHTTP = "api.returndex.com";
-  final String developmentHost_withoutHTTP = "rdapi.cashaa.news";
+  final String developmentHost_withoutHTTP = "rd.team3d.in";
 
    String authToken = "";
 
