@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ReturnDex/reuseable/networkUtility.dart';
 import 'package:ReturnDex/ui/otp_verify.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey_register,
@@ -33,7 +35,7 @@ class _SignupPageState extends State<SignupPage> {
                       padding: EdgeInsets.fromLTRB(10.0, 30.0, 0.0, 0.0),
                       child: Text('Signup',
                           style: TextStyle(
-                            fontSize: 80.0,
+                            fontSize: ScreenUtil(allowFontScaling: true).setSp(160),
                             fontWeight: FontWeight.bold,
                           )),
                     ),
@@ -43,7 +45,7 @@ class _SignupPageState extends State<SignupPage> {
                       padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
                       child: Text('.',
                           style: TextStyle(
-                              fontSize: 80.0,
+                              fontSize: ScreenUtil(allowFontScaling: true).setSp(160),
                               fontWeight: FontWeight.bold,
                               color: Colors.redAccent)),
                     ),
@@ -51,7 +53,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: ScreenUtil.getInstance().setHeight(40),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -60,26 +62,26 @@ class _SignupPageState extends State<SignupPage> {
                     padding: EdgeInsets.fromLTRB(45.0, 5.0, 45.0, 5.0),
                   ),
                   ImageHolder(),
-                  SizedBox(height: 15.0),
+                  SizedBox(height: ScreenUtil.getInstance().setHeight(30),),
                   Text("Enter your mobile number to ",
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: ScreenUtil(allowFontScaling: true).setSp(40),
                         color: Colors.black,
                       )),
                   Text("create new account ",
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: ScreenUtil(allowFontScaling: true).setSp(40),
                         color: Colors.black,
                       )),
                   SizedBox(
-                    height: 15.0,
+                    height: ScreenUtil.getInstance().setHeight(30),
                   ),
                   Text("We will send you One Time Password (OTP)"),
                   SizedBox(
-                    height: 20.0,
+                    height: ScreenUtil.getInstance().setHeight(40),
                   ),
                   Container(
-                    width: 300.0,
+                    width: ScreenUtil.getInstance().setWidth(600),
                     child: Center(
                       child: TextFormField(
                         controller: registerController,
@@ -105,11 +107,11 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 30.0,
+                    height: ScreenUtil.getInstance().setHeight(60),
                   ),
                   Container(
-                    height: 40.0,
-                    width: 200.0,
+                    height: ScreenUtil.getInstance().setHeight(80),
+                    width: ScreenUtil.getInstance().setWidth(400),
                     child: Material(
                       borderRadius: BorderRadius.circular(20.0),
                       shadowColor: Colors.grey,

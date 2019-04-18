@@ -1,6 +1,6 @@
 import 'package:ReturnDex/reuseable/networkUtility.dart';
 import 'package:flutter/material.dart';
-import 'package:ReturnDex/ui/restapidata.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'tags.dart';
 import 'package:ReturnDex/reuseable/slideanimation.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -37,6 +37,7 @@ Future<bool> _onBackPressed() {
 
     @override
     Widget build(BuildContext context) {
+       ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
        return WillPopScope(
         onWillPop: _onBackPressed,
             child: Scaffold(
@@ -104,27 +105,27 @@ Future<bool> _onBackPressed() {
                                     Text(
                                       "ReturnDex",
                                       style:TextStyle(
-                                        fontSize: 25.0,
+                                        fontSize: ScreenUtil(allowFontScaling: true).setSp(50),
                                         color:Colors.grey.shade700,
                                         fontFamily: "Bauhaus",
                                         fontWeight: FontWeight.bold,
                                       )
                                     ),
-                                    SizedBox(width:105.0),
+                                    SizedBox(width:ScreenUtil.getInstance().setWidth(200)),
                                     IconButton(
                   icon: Icon(Icons.notifications),
                   color: Colors.grey.shade500,
                   iconSize: 30.0,
                   onPressed: (){}, // icon pressed function
                                     ),
-                                     SizedBox(width:8.0),
+                                     SizedBox(width:ScreenUtil.getInstance().setWidth(16)),
                                     InkWell(
                                       onTap: (){
                                         
                                       },
                                       child: Container(
-                                        height: 50.0,
-                                        width: 50.0,
+                                        height: ScreenUtil.getInstance().setHeight(100),
+                                        width: ScreenUtil.getInstance().setWidth(100),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(15.0),
                                           image: DecorationImage(
@@ -143,7 +144,7 @@ Future<bool> _onBackPressed() {
                                 padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
                                 child: Container(
                                   padding: EdgeInsets.only(left:10.0),
-                                  height: 100.0,
+                                  height: ScreenUtil.getInstance().setHeight(200),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10.0),
                                     color: Colors.grey.shade200,
@@ -163,11 +164,11 @@ Future<bool> _onBackPressed() {
                                         iconSize: 50.0,
                                         highlightColor: Colors.deepOrange,
                                         onPressed: (){
-                                          print("fsf");
+                                          //print("fsf");
                                         }, // press event
                                       ),
                   
-                                      SizedBox(width: 15.0,),
+                                      SizedBox(width: ScreenUtil.getInstance().setWidth(30),),
                                       Padding(
                                         padding: EdgeInsets.only(top: 1.0,left: 1.0),
                                         child: Center(
@@ -182,7 +183,7 @@ Future<bool> _onBackPressed() {
                                         ),
                                         ),
                   
-                                        SizedBox(width: 10.0,),
+                                        SizedBox(width: ScreenUtil.getInstance().setWidth(20),),
                                         
                   IconButton(
                     icon: Icon(Icons.arrow_forward_ios,color:Colors.grey.shade500),
@@ -206,7 +207,7 @@ Future<bool> _onBackPressed() {
                               Padding(
                                 padding:EdgeInsets.fromLTRB(15.0, 60.0, 15.0, 5.0) ,
                                 child: Container(
-                    height: 40.0,
+                    height: ScreenUtil.getInstance().setHeight(80),
                     child:RaisedButton(
                   color:Colors.redAccent,
                    child: Text(
@@ -227,14 +228,14 @@ Future<bool> _onBackPressed() {
                   
                   
                                 ),
-                                SizedBox(height:5.0),
+                                SizedBox(height:ScreenUtil.getInstance().setHeight(10)),
                   
                                
                   
                                Padding(
                                 padding:EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0) ,
                                 child: Container(
-                    height: 40.0,
+                    height: ScreenUtil.getInstance().setHeight(80),
                     child: RaisedButton(
                          shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
                      child: Text(
@@ -258,7 +259,7 @@ Future<bool> _onBackPressed() {
                               Padding(
                                 padding: EdgeInsets.fromLTRB(15, 25.0, 15.0, 5.0),
                                 child:  Container(
-                    height: 40.0,
+                    height: ScreenUtil.getInstance().setHeight(80),
                     color: Colors.transparent,
                     child: OutlineButton(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),

@@ -4,6 +4,7 @@ import 'package:ReturnDex/reuseable/networkUtility.dart';
 import 'package:ReturnDex/ui/otp_verify.dart';
 import 'package:ReturnDex/ui/signup.dart';
 import 'package:ReturnDex/walkthrough.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyLoginPage extends StatefulWidget {
   @override
@@ -22,15 +23,18 @@ TextEditingController passwordController =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return SafeArea(
+      
       child: new Scaffold(
+        
         key: _scaffoldKey,
           resizeToAvoidBottomPadding: false,
           //backgroundColor: Colors.grey,
           body: Form(
             key: _formKey,
             child: ListView(
-              // fit: StackFit.expand,
+              
               children: <Widget>[
                
                 Column(
@@ -43,7 +47,7 @@ TextEditingController passwordController =TextEditingController();
                             padding: EdgeInsets.fromLTRB(10.0, 50.0, 0.0, 0.0),
                             child: Text('Login',
                                 style: TextStyle(
-                                  fontSize: 80.0,
+                                  fontSize: ScreenUtil(allowFontScaling: true).setSp(160),
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
@@ -53,7 +57,7 @@ TextEditingController passwordController =TextEditingController();
                             padding: EdgeInsets.fromLTRB(10.0, 115.0, 0.0, 0.0),
                             child: Text('Here',
                                 style: TextStyle(
-                                  fontSize: 80.0,
+                                  fontSize: ScreenUtil(allowFontScaling: true).setSp(160),
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
@@ -65,7 +69,7 @@ TextEditingController passwordController =TextEditingController();
                                 EdgeInsets.fromLTRB(180.0, 115.0, 0.0, 0.0),
                             child: Text('.',
                                 style: TextStyle(
-                                  fontSize: 80.0,
+                                  fontSize: ScreenUtil(allowFontScaling: true).setSp(160),
                                   fontWeight: FontWeight.bold,
                                   color: Colors.redAccent,
                                 )),
@@ -110,7 +114,7 @@ TextEditingController passwordController =TextEditingController();
 
                           SizedBox(
                               height:
-                                  10.0), // just for spacing between textboxes
+                                  ScreenUtil.getInstance().setHeight(10),), // just for spacing between textboxes
 
                           TextFormField(
                             obscureText: true,
@@ -129,12 +133,12 @@ TextEditingController passwordController =TextEditingController();
                           ),
 
                           SizedBox(
-                            height: 30.0,
+                            height: ScreenUtil.getInstance().setHeight(60),
                           ),
 
                           Container(
-                            height: 40.0,
-                            width: 200.0,
+                             height: ScreenUtil.getInstance().setHeight(80),
+                             width: ScreenUtil.getInstance().setWidth(400),
                             child: Material(
                               borderRadius: BorderRadius.circular(20.0),
                               shadowColor: Colors.grey,
@@ -157,12 +161,12 @@ TextEditingController passwordController =TextEditingController();
                                                             ),
                                   
                                                             SizedBox(
-                                                              height: 15.0,
+                                                              height: ScreenUtil.getInstance().setHeight(30),
                                                             ),
                                   
                                                             Container(
-                                                              height: 40.0,
-                                                              width: 200.0,
+                                                              height: ScreenUtil.getInstance().setHeight(80),
+                                                              width: ScreenUtil.getInstance().setWidth(400),
                                                               color: Colors.transparent,
                                                               child: Container(
                                                                 decoration: BoxDecoration(
@@ -190,7 +194,7 @@ TextEditingController passwordController =TextEditingController();
                                                                                                                ),
                                                                                                       
                                                                                                                                 SizedBox(
-                                                                                                                                  height: 45.0,
+                                                                                                                                  height: ScreenUtil.getInstance().setHeight(90),
                                                                                                                                 ),
                                                                                                       
                                                                                                                                 Row(

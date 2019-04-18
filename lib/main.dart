@@ -7,6 +7,7 @@ import 'package:ReturnDex/ui/otp_verify.dart';
 import 'package:ReturnDex/ui/tags.dart';
 import 'package:ReturnDex/ui/welcome.dart';
 import 'package:ReturnDex/walkthrough.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 void main() => runApp(MyApp());
@@ -118,6 +119,7 @@ void updateToken(String token)
  @override
   Widget build(BuildContext context)
   {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return new Scaffold(
 body: Stack(
   fit: StackFit.expand,
@@ -170,7 +172,7 @@ Expanded(
       ),
       Text("India's Recovery Service",style:TextStyle(
         color:Colors.white,
-                    fontSize:24.0,
+                    fontSize:ScreenUtil(allowFontScaling: true).setSp(45),
                     fontWeight: FontWeight.bold
 
       )

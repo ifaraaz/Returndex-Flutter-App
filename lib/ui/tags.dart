@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ReturnDex/model/taglist.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ReturnDex/reuseable/networkUtility.dart';
 
 class MyTagsPage extends StatefulWidget {
@@ -22,6 +22,7 @@ class _MyTagsPageState extends State<MyTagsPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return new Scaffold(
       key: _scafoldkey_tag,
       body: Form(
@@ -44,17 +45,17 @@ onPressed: (){
    Navigator.pop(context);
 }, // icon pressed function
                   ),
-                    SizedBox(width:8.0),
+                    SizedBox(width:ScreenUtil.getInstance().setWidth(16)),
                   Text(
                     "ReturnDex",
                     style:TextStyle(
-                      fontSize: 25.0,
+                      fontSize: ScreenUtil(allowFontScaling: true).setSp(50),
                       color:Colors.grey.shade700,
                       fontFamily: "Bauhaus",
                       fontWeight: FontWeight.bold,
                     )
                   ),
-                  SizedBox(width:65.0),
+                  SizedBox(width:ScreenUtil.getInstance().setWidth(120)),
                   IconButton(
 icon: Icon(Icons.notifications),
 color: Colors.grey.shade500,
@@ -64,12 +65,12 @@ onPressed: (){
 
 }, // icon pressed function
                   ),
-                   SizedBox(width:8.0),
+                   SizedBox(width:ScreenUtil.getInstance().setWidth(16)),
                   InkWell(
                     onTap: (){},
                     child: Container(
-                      height: 50.0,
-                      width: 50.0,
+                      height: ScreenUtil.getInstance().setHeight(100),
+                      width: ScreenUtil.getInstance().setWidth(100),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         image: DecorationImage(
@@ -88,7 +89,7 @@ Padding(
   padding: EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
   child: Container(
     padding: EdgeInsets.only(left:10.0),
-                height: 170.0,
+                height: ScreenUtil.getInstance().setWidth(360),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: Colors.grey.shade200,
@@ -103,7 +104,7 @@ Padding(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 8.0,),
+                  SizedBox(height: ScreenUtil.getInstance().setHeight(16),),
                   Text("ENTER YOUR TAG ID ",style: TextStyle(
 fontSize: 18.0,
 color: Colors.grey.shade700,
@@ -111,9 +112,9 @@ fontWeight: FontWeight.bold,
                   ),
                   ),
 
-                  SizedBox(height: 3.0,),
+                  SizedBox(height: ScreenUtil.getInstance().setHeight(6),),
                   Container(
-                    width: 230.0,
+                    width: ScreenUtil.getInstance().setWidth(460),
                      child: TextFormField(
                        controller: tagController,
                        validator: (String value){
@@ -140,7 +141,7 @@ fontWeight: FontWeight.bold,
 
                   
 
- SizedBox(height: 5.0,),
+ SizedBox(height: ScreenUtil.getInstance().setHeight(10),),
 
  RaisedButton(
    color:Colors.redAccent,
@@ -171,7 +172,7 @@ fontWeight: FontWeight.bold,
            children: <Widget>[
                Icon(Icons.priority_high,color: Colors.blue,),
                Text("Recent Tags"),
-               SizedBox(width: 150.0,),
+               SizedBox(width: ScreenUtil.getInstance().setWidth(270),),
        InkWell(
          child: Text("View all",style: TextStyle(color:Colors.blue),),
          onTap: (){},
@@ -198,7 +199,7 @@ fontWeight: FontWeight.bold,
          padding:EdgeInsets.fromLTRB(15.0, 2.0, 15.0, 2.0) ,
          
         child: Container(
-                 height: 250.0,
+                 height: ScreenUtil.getInstance().setHeight(300),
        child: Container(
           child: FutureBuilder(
             future: getActivatedTagList(context),

@@ -392,6 +392,8 @@ getAuthTokenString() async{
 		scaffoldKey.currentState.showSnackBar(
 			new SnackBar(
 				content: new Text(message ?? 'You are offline'),
+        duration: Duration(milliseconds: 10000)
+        
 			)
 		);
 	}
