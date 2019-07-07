@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ReturnDex/reuseable/networkUtility.dart';
-import 'package:ReturnDex/walkthrough.dart';
+
 
 class VerifyOTP extends StatefulWidget {
   final String mobileNumber ;
@@ -13,13 +13,41 @@ class VerifyOTP extends StatefulWidget {
   _VerifyOTPState createState() => _VerifyOTPState();
 
 }
+//timer code
+class Countdown extends AnimatedWidget {
+  Countdown({ Key key, this.animation }) : super(key: key, listenable: animation);
+  Animation<int> animation;
 
-class _VerifyOTPState extends State<VerifyOTP> {
+  @override
+  build(BuildContext context){
+    return new Text("OTP will be received in  " +
+      animation.value.toString() + " seconds",
+      style: new TextStyle(fontSize: 14.0,color:Colors.grey,),
+    );
+  }
+}
+  
+class _VerifyOTPState extends State<VerifyOTP> with TickerProviderStateMixin {
    final GlobalKey<ScaffoldState> _scaffoldKey_otp = new GlobalKey<ScaffoldState>();
   var _formKey_otp =GlobalKey<FormState>();
   var mobileKey_otp = GlobalKey<FormFieldState>();
 
   TextEditingController otpValueController = TextEditingController();
+  //timer code 
+AnimationController _controller;
+
+  static const int kStartValue = 180;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = new AnimationController(
+      vsync: this,
+      duration: new Duration(seconds: kStartValue),
+    );
+    _controller.forward(from: 0.0);
+  }
+  //-- timer code end 
 
   @override
   Widget build(BuildContext context) {
@@ -117,11 +145,25 @@ SizedBox(height: 20.0,),
                       ),
                     ),
                   ),
+                 
+                  Center(
+                    
+                      child: Countdown(
+                        
+            animation: new StepTween(
+              begin: kStartValue,
+              end: 0,
+            ).animate(_controller),
+          ),
+          ),
 
                   SizedBox(height: 10.0,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      
+                                              
+                      
                       Text("If you didn't recieve the code ",style: TextStyle(
                         color:Colors.grey,
                       ),),

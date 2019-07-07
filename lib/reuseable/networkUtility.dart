@@ -9,9 +9,10 @@ import 'package:connectivity/connectivity.dart';
 
  
  
- 	final String host = developmentHost;
-  final String host_withoutHTTP = developmentHost_withoutHTTP;
-	final String productionHost = 'https://api.returndex.com';
+ 	final String host = productionHost;
+  final String host_withoutHTTP = productionHost_withoutHTTP;
+
+	final String productionHost = 'http://api.returndex.com/';
 	final String developmentHost = 'http://rd.team3d.in/';
   final String productionHost_withoutHTTP = "api.returndex.com";
   final String developmentHost_withoutHTTP = "rd.team3d.in";
@@ -51,6 +52,7 @@ try {
   final response =
         await http.post(url, body: body, headers: headers);
          final status =response.statusCode;
+         print(status);
     
    
     if (status == 201) {
@@ -61,6 +63,7 @@ try {
     return user;
     }
     else {
+      print("null-status");
       return null;
 
     }
@@ -252,6 +255,10 @@ try {
        return tag;
 
     }
+    else if(status == 401){
+      
+
+    }
     else {
      
       return null;
@@ -330,7 +337,7 @@ try {
      
       return listoftags;
 }
-else if(status == 401){
+else if(status == 404){
 logoutUser();
 Navigator.of(context).pop();
 Navigator.of(context).pushReplacementNamed('/login');

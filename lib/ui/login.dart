@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ReturnDex/reuseable/networkUtility.dart';
 import 'package:ReturnDex/ui/otp_verify.dart';
@@ -13,30 +12,24 @@ class MyLoginPage extends StatefulWidget {
 
 class _MyLoginPageState extends State<MyLoginPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  var _formKey =GlobalKey<FormState>();
+  var _formKey = GlobalKey<FormState>();
   var mobileKey = GlobalKey<FormFieldState>();
 
-var displayresult = "";
-
-TextEditingController mobileNumController = TextEditingController();
-TextEditingController passwordController =TextEditingController();
+  TextEditingController mobileNumController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return SafeArea(
-      
       child: new Scaffold(
-        
-        key: _scaffoldKey,
+          key: _scaffoldKey,
           resizeToAvoidBottomPadding: false,
           //backgroundColor: Colors.grey,
           body: Form(
             key: _formKey,
             child: ListView(
-              
               children: <Widget>[
-               
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -47,7 +40,8 @@ TextEditingController passwordController =TextEditingController();
                             padding: EdgeInsets.fromLTRB(10.0, 50.0, 0.0, 0.0),
                             child: Text('Login',
                                 style: TextStyle(
-                                  fontSize: ScreenUtil(allowFontScaling: true).setSp(160),
+                                  fontSize: ScreenUtil(allowFontScaling: true)
+                                      .setSp(160),
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
@@ -57,7 +51,8 @@ TextEditingController passwordController =TextEditingController();
                             padding: EdgeInsets.fromLTRB(10.0, 115.0, 0.0, 0.0),
                             child: Text('Here',
                                 style: TextStyle(
-                                  fontSize: ScreenUtil(allowFontScaling: true).setSp(160),
+                                  fontSize: ScreenUtil(allowFontScaling: true)
+                                      .setSp(160),
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
@@ -69,7 +64,8 @@ TextEditingController passwordController =TextEditingController();
                                 EdgeInsets.fromLTRB(180.0, 115.0, 0.0, 0.0),
                             child: Text('.',
                                 style: TextStyle(
-                                  fontSize: ScreenUtil(allowFontScaling: true).setSp(160),
+                                  fontSize: ScreenUtil(allowFontScaling: true)
+                                      .setSp(160),
                                   fontWeight: FontWeight.bold,
                                   color: Colors.redAccent,
                                 )),
@@ -90,36 +86,32 @@ TextEditingController passwordController =TextEditingController();
                             controller: mobileNumController,
                             keyboardType: TextInputType.number,
                             maxLength: 10,
-                            
-                           
-                            validator: (String value){
+                            validator: (String value) {
                               if (value.isEmpty) {
                                 return "Please enter Mobile Number";
+                              } else if (value.isNotEmpty) {
+                                var result = value.length < 10
+                                    ? "Invalid Mobile Number"
+                                    : null;
+                                return result;
                               }
-                              else if(value.isNotEmpty){
-                                 var result = value.length < 10 ? "Invalid Mobile Number" : null;
-                                 return result;
-
-                              }
-
                             },
                             decoration: InputDecoration(
                                 labelText: 'Mobile Number',
                                 labelStyle: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey,
-                                  
                                 )),
                           ),
 
                           SizedBox(
-                              height:
-                                  ScreenUtil.getInstance().setHeight(10),), // just for spacing between textboxes
+                            height: ScreenUtil.getInstance().setHeight(10),
+                          ), // just for spacing between textboxes
 
                           TextFormField(
                             obscureText: true,
                             controller: passwordController,
-                            validator: (String val){
+                            validator: (String val) {
                               if (val.isEmpty) {
                                 return "Please Enter Password";
                               }
@@ -137,8 +129,8 @@ TextEditingController passwordController =TextEditingController();
                           ),
 
                           Container(
-                             height: ScreenUtil.getInstance().setHeight(80),
-                             width: ScreenUtil.getInstance().setWidth(400),
+                            height: ScreenUtil.getInstance().setHeight(80),
+                            width: ScreenUtil.getInstance().setWidth(400),
                             child: Material(
                               borderRadius: BorderRadius.circular(20.0),
                               shadowColor: Colors.grey,
@@ -146,179 +138,159 @@ TextEditingController passwordController =TextEditingController();
                               elevation: 7.0,
                               child: InkWell(
                                 onTap: () {
-                                 loginValidateClicked();
-                                                                 
-                                                                  },
-                                                                  child: Center(
-                                                                    child: Text('LOGIN',
-                                                                        style: TextStyle(
-                                                                          color: Colors.white,
-                                                                          fontWeight: FontWeight.bold,
-                                                                        )),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                  
-                                                            SizedBox(
-                                                              height: ScreenUtil.getInstance().setHeight(30),
-                                                            ),
-                                  
-                                                            Container(
-                                                              height: ScreenUtil.getInstance().setHeight(80),
-                                                              width: ScreenUtil.getInstance().setWidth(400),
-                                                              color: Colors.transparent,
-                                                              child: Container(
-                                                                decoration: BoxDecoration(
-                                                                  border: Border.all(
-                                                                      color: Colors.black,
-                                                                      style: BorderStyle.solid,
-                                                                      width: 1.0),
-                                                                  color: Colors.transparent,
-                                                                  borderRadius: BorderRadius.circular(20.0),
-                                                                ),
-                                                                child: InkWell(
-                                                                  onTap: () {
+                                  loginValidateClicked();
+                                },
+                                child: Center(
+                                  child: Text('LOGIN',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ),
+                              ),
+                            ),
+                          ),
 
-                                                                    otpButtonClicked();
-                                                                                                                                        
-                                                                             },
-                                                                          child: Center(
-                                                            child: Text('LOGIN WITH OTP',
-                                                                      style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                              )),
-                                                            ),
-                                                    ),
-                                                         ),
-                                                                                                               ),
-                                                                                                      
-                                                                                                                                SizedBox(
-                                                                                                                                  height: ScreenUtil.getInstance().setHeight(90),
-                                                                                                                                ),
-                                                                                                      
-                                                                                                                                Row(
-                                                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                                                  children: <Widget>[
-                                                                                                                                    InkWell(
-                                                                                                                                      onTap: () {
-                                                                                                                                        Navigator.push(
-                                                                                                                                            context,
-                                                                                                                                            MaterialPageRoute(
-                                                                                                                                                builder: (context) => SignupPage()));
-                                                                                                                                      },
-                                                                                                                                      child: Text('CREATE A NEW ACCOUNT HERE',
-                                                                                                                                          style: TextStyle(
-                                                                                                                                            color: Colors.blueAccent,
-                                                                                                                                            fontWeight: FontWeight.bold,
-                                                                                                                                          )),
-                                                                                                                                    )
-                                                                                                                                  ],
-                                                                                                                                )
-                                                                                                                              ],
-                                                                                                                            ),
-                                                                                                                          )
-                                                                                                                        ],
-                                                                                                                      ),
-                                                                                                                    ],
-                                                                                                                  ),
-                                                                                                                )),
-                                                                                                          );
-                                                                                                        }
-                                                                                                      
-                                  void loginValidateClicked() {
-                                  setState(() {
-                                   if (_formKey.currentState.validate()) {
-                                     FocusScope.of(context).requestFocus(new FocusNode());
-                                              _loginButtonClicked("2");
-                                          }
-                                            });
-                                                                                                              
-                                         }
-                                                                    
-                                                                      void otpButtonClicked() {
-if (mobileKey.currentState.validate()) {
- // getloginpassword();
-	_otpButtonClicked("1");
-             }
-                                                                       
+                          SizedBox(
+                            height: ScreenUtil.getInstance().setHeight(30),
+                          ),
 
-   }
+                          Container(
+                            height: ScreenUtil.getInstance().setHeight(80),
+                            width: ScreenUtil.getInstance().setWidth(400),
+                            color: Colors.transparent,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.black,
+                                    style: BorderStyle.solid,
+                                    width: 1.0),
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  otpButtonClicked();
+                                },
+                                child: Center(
+                                  child: Text('LOGIN WITH OTP',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ),
+                              ),
+                            ),
+                          ),
 
+                          SizedBox(
+                            height: ScreenUtil.getInstance().setHeight(90),
+                          ),
 
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SignupPage()));
+                                },
+                                child: Text('CREATE A NEW ACCOUNT HERE',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          )),
+    );
+  }
 
-
-_otpButtonClicked(String logintype) async {
-   FocusScope.of(context).requestFocus(new FocusNode());
-	showSnackBar(_scaffoldKey, 'Please wait ...');
- 
-  var responseJson =await loginwithOTP(mobileNumController.text);
-  print(responseJson);
-
-  	if(responseJson == null) {
-
-				showSnackBar(_scaffoldKey, 'Something Went Wrong !');
-
-			} 
-      else{
-        String otp =responseJson.otpValue;
-        if(otp == null){otp = "0";}
-        print("faraaz " + otp);
-        bool checkuser =responseJson.checkUserexist;
-        if (checkuser == false) {
-          	showSnackBar(_scaffoldKey, 'Number not Registered, please Create New Account');
-             
-           
-                  }
-        else if(checkuser == true){
-          	showSnackBar(_scaffoldKey, 'Sending SMS to ' + mobileNumController.text);
-              Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => VerifyOTP(mobileNumber: mobileNumController.text, requestType: "Login",)),
-  );
-
-        }
+  void loginValidateClicked() {
+    setState(() {
+      if (_formKey.currentState.validate()) {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        _loginButtonClicked("2");
       }
+    });
+  }
 
-      
+  void otpButtonClicked() {
+    if (mobileKey.currentState.validate()) {
+      // getloginpassword();
+      _otpButtonClicked("1");
+    }
+  }
 
-}
+  _otpButtonClicked(String logintype) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    showSnackBar(_scaffoldKey, 'Please wait ...');
 
-_loginButtonClicked(String logintype) async {
-			showSnackBar(_scaffoldKey, 'Please wait ...');
-
-		var responseJson =await authenticateUser(logintype,mobileNumController.text,passwordController.text);
+    var responseJson = await loginwithOTP(mobileNumController.text);
     print(responseJson);
-       String message =responseJson.message;
+
+    if (responseJson == null) {
+      showSnackBar(_scaffoldKey, 'Something Went Wrong !');
+    } else {
+      String otp = responseJson.otpValue;
+      if (otp == null) {
+        otp = "0";
+      }
+      print("faraaz " + otp);
+      bool checkuser = responseJson.checkUserexist;
+      if (checkuser == false) {
+        showSnackBar(
+            _scaffoldKey, 'Number not Registered, please Create New Account');
+      } else if (checkuser == true) {
+        showSnackBar(
+            _scaffoldKey, 'Sending SMS to ' + mobileNumController.text);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => VerifyOTP(
+                    mobileNumber: mobileNumController.text,
+                    requestType: "Login",
+                  )),
+        );
+      }
+    }
+  }
+
+  _loginButtonClicked(String logintype) async {
+    showSnackBar(_scaffoldKey, 'Please wait ...');
+
+    var responseJson = await authenticateUser(
+        logintype, mobileNumController.text, passwordController.text);
+    print(responseJson);
+    String message = responseJson.message;
     if (message == "Login Successfully") {
       //login successfull
-      	showSnackBar(_scaffoldKey, 'Login Successful');
-				/**
+      showSnackBar(_scaffoldKey, 'Login Successful');
+      /**
 				 * Removes stack and start with the new page.
 				 * In this case on press back on HomePage app will exit.
 				 * **/
-			 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
-
-    }
-		else if(message == "Invalid Request"){
-
-				showSnackBar(_scaffoldKey, message);
-
-			} 
-       else if (message == "Incorrect Login Credentials !")
-    {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => MyWalkthroughScreen()));
+    } else if (message == "Invalid Request") {
+      showSnackBar(_scaffoldKey, message);
+    } else if (message == "Incorrect Login Credentials !") {
       // username password is incorrect
-      	showSnackBar(_scaffoldKey, message);
+      showSnackBar(_scaffoldKey, message);
+    } else if (responseJson == null) {
+      showSnackBar(
+          _scaffoldKey, 'Something went wrong! Try again after sometime');
+    } else {
+      showSnackBar(_scaffoldKey, 'Something went wrong!');
     }
-			else if(responseJson == null) {
-				showSnackBar(_scaffoldKey, 'Something went wrong! Try again after sometime');
-			} 
-      else {
-        showSnackBar(_scaffoldKey, 'Something went wrong!');
-      }
-      
-      
-		} 
-		
-	}
-
+  }
+}

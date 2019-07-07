@@ -1,3 +1,5 @@
+
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:ReturnDex/reuseable/networkUtility.dart';
 import 'package:ReturnDex/ui/otp_verify.dart';
@@ -7,6 +9,11 @@ class SignupPage extends StatefulWidget {
   @override
   _SignupPageState createState() => _SignupPageState();
 }
+// Duration is 5 seconds
+Duration _timerDuration = new Duration(seconds: 120);
+
+// Creating a new timer element.
+
 
 class _SignupPageState extends State<SignupPage> {
    final GlobalKey<ScaffoldState> _scaffoldKey_register = new GlobalKey<ScaffoldState>();
@@ -14,6 +21,8 @@ class _SignupPageState extends State<SignupPage> {
   var mobileKey_register = GlobalKey<FormFieldState>();
 
   TextEditingController registerController =TextEditingController();
+ 
+
 
 
   @override
@@ -122,6 +131,7 @@ class _SignupPageState extends State<SignupPage> {
                           setState(() {
                            if (_formKey_register.currentState.validate()) {
                              _regiterButtonClicked();
+                            
                                                         } 
                                                        });
                                                        },
@@ -132,9 +142,12 @@ class _SignupPageState extends State<SignupPage> {
                                                              fontWeight: FontWeight.bold,
                                                            )),
                                                      ),
+                                                     
                                                    ),
                                                  ),
+                                                 
                                                ),
+                                               
                                              ],
                                            ),
                                          ],
@@ -170,6 +183,8 @@ class _SignupPageState extends State<SignupPage> {
                                 }
                                }
 }
+
+
 
 class ImageHolder extends StatelessWidget {
   @override
