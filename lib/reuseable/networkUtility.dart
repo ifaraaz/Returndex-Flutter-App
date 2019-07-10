@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ReturnDex/model/Auth.dart';
@@ -363,7 +364,50 @@ else{
 
 //---------------------------END-------------------
 
+//--------------------Profile Details----------------
 
+Future<String> getProfileDetails(BuildContext context) async {
+    var endpoint = "/UserProfile/GetUserProfile";
+   var auth_Token =getTokenPreferences();
+    if (authToken != "") {
+   
+    String authorization = "Basic "+authToken;
+     print(authorization);
+
+// http get request with paraemeters
+    final url = new Uri.http(host_withoutHTTP, endpoint, );
+
+    Map<String,String> headers = {
+      'Content-Type' : 'application/json', 
+      'Accept': 'application/json',
+      'Authorization':authorization,
+    };
+try {
+  final response =
+        await http.get(url, headers: headers);
+   
+    final status =response.statusCode;
+    print(status);
+    print(response.body);
+    
+    
+     
+      return "";
+
+
+   
+   
+  
+    } catch (exception) {
+  //	print(exception);
+   // logoutUser();
+		return null;
+  }
+    
+}
+}
+
+//---------------------------END-------------------
 
 // Shared Preference to save value in cache for future references
 Future<bool> saveTokenPreferences(String token) async{

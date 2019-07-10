@@ -1,4 +1,5 @@
 import 'package:ReturnDex/reuseable/networkUtility.dart';
+import 'package:ReturnDex/ui/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'tags.dart';
@@ -121,7 +122,7 @@ Future<bool> _onBackPressed() {
                                      SizedBox(width:ScreenUtil.getInstance().setWidth(16)),
                                     InkWell(
                                       onTap: (){
-                                        
+                                        Navigator.push(context, SlideLeftRoute(widget: ProfilePage())); 
                                       },
                                       child: Container(
                                         height: ScreenUtil.getInstance().setHeight(100),
