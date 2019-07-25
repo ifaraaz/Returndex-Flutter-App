@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:ReturnDex/bottombar/home_ui_bar.dart' as prefix0;
+import 'package:ReturnDex/reuseable/slideanimation.dart';
+import 'package:ReturnDex/ui/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,7 +105,9 @@ class _MyTagsPageState extends State<MyTagsPage> {
                   ),
                   SizedBox(width: ScreenUtil.getInstance().setWidth(16)),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, SlideLeftRoute(widget: ProfilePage())); 
+                    },
                     child: Container(
                       height: ScreenUtil.getInstance().setHeight(100),
                       width: ScreenUtil.getInstance().setWidth(100),
@@ -257,7 +261,7 @@ class _MyTagsPageState extends State<MyTagsPage> {
             Padding(
               padding: EdgeInsets.fromLTRB(15.0, 2.0, 15.0, 2.0),
               child: Container(
-                height: ScreenUtil.getInstance().setHeight(300),
+                height: ScreenUtil.getInstance().setHeight(450),
                 child: Container(
                   child: FutureBuilder(
                     future: getActivatedTagList(context),

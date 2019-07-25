@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'package:ReturnDex/model/Userprofile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:ReturnDex/model/Auth.dart';
 import 'package:ReturnDex/model/taglist.dart';
@@ -366,7 +368,7 @@ else{
 
 //--------------------Profile Details----------------
 
-Future<String> getProfileDetails(BuildContext context) async {
+Future<UserProfile> getProfileDetails(BuildContext context) async {
     var endpoint = "/UserProfile/GetUserProfile";
    var auth_Token =getTokenPreferences();
     if (authToken != "") {
@@ -387,15 +389,57 @@ try {
         await http.get(url, headers: headers);
    
     final status =response.statusCode;
+   final responseJson = json.decode(response.body);
     print(status);
-    print(response.body);
-    
-    
+    print(responseJson);
+    // UserProfile up = new UserProfile(responseJson["FirstName"],responseJson["LastName"], responseJson["AlternateNumber"], responseJson["Email"], responseJson["CompleteAddress"], responseJson["imagePath"],responseJson["registeredNumber"]);
      
-      return "";
+      return UserProfile(responseJson["FirstName"],responseJson["LastName"], responseJson["AlternateNumber"], responseJson["Email"], responseJson["CompleteAddress"], responseJson["imagePath"],responseJson["registeredNumber"]);
+
+  
+    } catch (exception) {
+  //	print(exception);
+   // logoutUser();
+		return null;
+  }
+    
+}
+}
 
 
+//---------Update Profile Details --------------------------
+
+Future<String> updateUserProfile(String firstName, String lastName, String alternateNumber, String completeAddress,String email) async {
+    
+   var auth_Token =getTokenPreferences();
+    if (authToken != "") {
    
+    String authorization = "Basic "+authToken;
+     print(authorization);
+
+    var endpoint = "/UserProfile/UpdateUserProfileForCell";
+    var url = host + endpoint;
+    var body = json.encode({
+         "FirstName": firstName,
+      "LastName": lastName,
+      "AlternateNumber": alternateNumber,
+      "CompleteAddress": completeAddress,
+      "Email": email    
+      });
+
+
+    Map<String,String> headers = {
+      'Content-Type' : 'application/json', 
+      'Accept': 'application/json',
+      'Authorization':authorization,
+    };
+
+try {
+   final response =
+        await http.post(url, body: body, headers: headers);
+    
+    final status =response.statusCode;
+    print(status);
    
   
     } catch (exception) {
@@ -406,6 +450,9 @@ try {
     
 }
 }
+
+
+
 
 //---------------------------END-------------------
 
@@ -423,6 +470,7 @@ Future<bool> saveTokenPreferences(String token) async{
   authToken =token;
   return token;
 }
+
 
 getAuthTokenString() async{
   SharedPreferences prefs=await SharedPreferences.getInstance();

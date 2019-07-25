@@ -1,3 +1,4 @@
+import 'package:ReturnDex/model/Userprofile.dart';
 import 'package:ReturnDex/reuseable/networkUtility.dart';
 import 'package:ReturnDex/reuseable/slideanimation.dart';
 import 'package:ReturnDex/ui/welcome.dart';
@@ -12,13 +13,30 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin{
    bool _status = true;
+   TextEditingController _firstnamecontroller = new TextEditingController();
+   TextEditingController _lastnamecontroller = new TextEditingController();
+   TextEditingController _alternatemobilecontroller = new TextEditingController();
+   TextEditingController _emailcontroller = new TextEditingController();
+   TextEditingController _addresscontroller = new TextEditingController();
+   TextEditingController _passwordcontroller = new TextEditingController();
+   String firstname = "";
+   String lastname = "";
+   String mobilenumber = "";
+   String alternate_number = "";
+   String email_id = "";
+   String address = "";
+   String imagePath = "";
+
   final FocusNode myFocusNode = FocusNode();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProfileDetails(context);
+    getdetails();
+    
+    
+    
   }
 
   @override
@@ -153,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                                   ),
                                 SizedBox(width: 10.0,),
                                 new Text(
-                                    'Mobile',
+                                    mobilenumber,
                                     style: TextStyle(
                                         fontSize: 16.0,
                                         color: Colors.grey,
@@ -174,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   new Text(
-                                    'Name',
+                                    'First Name',
                                     style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold),
@@ -191,8 +209,48 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             children: <Widget>[
                               new Flexible(
                                 child: new TextField(
+                                  controller: _firstnamecontroller,
                                   decoration: const InputDecoration(
-                                    hintText: "Enter Your Name",
+                                    hintText: "Enter Your First Name",
+                                  ),
+                                  enabled: !_status,
+                                  autofocus: !_status,
+
+                                ),
+                              ),
+                            ],
+                          )),
+                           Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Last Name',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: _lastnamecontroller,
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter Your Last Name",
                                   ),
                                   enabled: !_status,
                                   autofocus: !_status,
@@ -229,8 +287,81 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             children: <Widget>[
                               new Flexible(
                                 child: new TextField(
+                                  controller: _emailcontroller,
                                   decoration: const InputDecoration(
                                       hintText: "Enter Email ID"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Alternate Mobile Number',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: _alternatemobilecontroller,
+                                  decoration: const InputDecoration(
+                                      hintText: "Enter Alternate Number"),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )),
+                          Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 25.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'Complete Address',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              new Flexible(
+                                child: new TextField(
+                                  controller: _addresscontroller,
+                                  decoration: const InputDecoration(
+                                      hintText: "Enter Complete Address"),
                                   enabled: !_status,
                                 ),
                               ),
@@ -264,6 +395,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             children: <Widget>[
                               new Flexible(
                                 child: new TextField(
+                                  controller: _passwordcontroller,
                                   decoration: const InputDecoration(
                                       hintText: "Enter New Password"),
                                   enabled: !_status,
@@ -292,6 +424,25 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     super.dispose();
   }
 
+  void getdetails() async {
+
+    
+       final user =  await getProfileDetails(context);
+       _firstnamecontroller.text = user.firstname;
+       _lastnamecontroller.text = user.lastname;
+       _emailcontroller.text = user.emailid;
+       _alternatemobilecontroller.text = user.alternateMobile;
+       _addresscontroller.text = user.completeaddress;
+       mobilenumber = user.mobilenumber;
+
+       if (mobilenumber == user.alternateMobile){
+         _alternatemobilecontroller.text = "";
+
+       }
+    
+   
+    }
+
   Widget _getActionButtons() {
     return Padding(
       padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
@@ -304,11 +455,13 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
               padding: EdgeInsets.only(right: 10.0),
               child: Container(
                   child: new RaisedButton(
-                child: new Text("Save"),
+                child: new Text("Update"),
                 textColor: Colors.white,
                 color: Colors.green,
                 onPressed: () {
-                  setState(() {
+                  updateUserProfile(_firstnamecontroller.text,_lastnamecontroller.text,_alternatemobilecontroller.text,_addresscontroller.text,_emailcontroller.text);
+                  print("clicked");
+                   setState(() {
                     _status = true;
                     FocusScope.of(context).requestFocus(new FocusNode());
                   });
